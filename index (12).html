@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aurelia Estates by Specter Developers | Concept Presentation</title>
+<meta name="description" content="Concept presentation of a premium plotted development by Specter Developers. All project figures on this page are synthetic demonstration data.">
+<!-- Demo site with synthetic data: kept out of search results. Remove this line when real project data goes in. -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b0a08">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%230b0a08'/%3E%3Crect x='4' y='4' width='32' height='32' fill='none' stroke='%23d8b97e' stroke-width='1.5'/%3E%3Cpath d='M27 12H13v8h14v8H13' fill='none' stroke='%23d8b97e' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@300..600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --ink:#0b0a08; --char:#14120f; --char2:#1d1a15; --paper:#efe8da; --paper2:#e3d9c5;
+  --sand:#cbbd9f; --gold:#b8935a; --gold2:#d8b97e; --green:#5f6e52; --moss:#27311f; --clay:#9a6046;
+  --text:#ece4d4; --mute:#a59c8b; --line:rgba(236,228,212,.14); --lineD:rgba(20,18,15,.16);
+  --serif:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --sans:"Jost","Avenir Next","Century Gothic",system-ui,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --pad:clamp(20px,5vw,84px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--ink);color:var(--text);font-family:var(--sans);font-weight:300;font-size:17px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.lock{overflow:hidden}
+main{overflow-x:clip}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{display:block}
+:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+section[id]{scroll-margin-top:0}
+.wrap{padding:0 var(--pad);max-width:1560px;margin:0 auto}
+.label{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:400;color:var(--gold)}
+.h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,6.2vw,104px);line-height:.98;letter-spacing:-.01em;text-transform:uppercase}
+.h2 em,.mega em{font-style:italic;text-transform:none;color:var(--gold)}
+.lead{font-size:clamp(18px,1.6vw,24px);line-height:1.5;max-width:34em}
+.note{font-size:12px;letter-spacing:.06em;color:var(--mute)}
+
+/* buttons */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 30px;border:1px solid rgba(236,228,212,.45);font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:400;overflow:hidden;isolation:isolate;transition:color .5s var(--ease),border-color .5s}
+.btn::before{content:"";position:absolute;inset:0;background:var(--text);transform:translateY(101%);transition:transform .6s var(--ease);z-index:-1}
+.btn:hover{color:var(--ink);border-color:var(--text)}.btn:hover::before{transform:none}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#14110c}
+.btn.gold::before{background:var(--gold2)}.btn.gold:hover{border-color:var(--gold2);color:#14110c}
+.btn.dark{border-color:rgba(20,18,15,.5);color:var(--ink)}.btn.dark::before{background:var(--ink)}.btn.dark:hover{color:var(--paper);border-color:var(--ink)}
+.btn.sm{padding:10px 20px;font-size:12px}
+
+/* scroll reveals */
+.ln{display:block;overflow:hidden;padding-bottom:.09em;margin-bottom:-.09em}
+.ln>span{display:block;transform:translateY(108%);transition:transform 1.2s var(--ease)}
+.ln:nth-child(2)>span{transition-delay:.1s}.ln:nth-child(3)>span{transition-delay:.2s}
+.in .ln>span,.ln.in>span{transform:none}
+.rv-fade{opacity:0;transform:translateY(26px);transition:opacity 1s ease,transform 1.2s var(--ease);transition-delay:calc(var(--i,0)*90ms)}
+.rv-fade.in{opacity:1;transform:none}
+.rv-clip>*{clip-path:inset(0 0 100% 0);transition:clip-path 1.4s var(--ease);transition-delay:calc(var(--i,0)*90ms)}
+.rv-clip.in>*{clip-path:inset(0)}
+.rv-rule{transform:scaleX(0);transform-origin:left;transition:transform 1.4s var(--ease);transition-delay:calc(var(--i,0)*70ms)}
+.rv-rule.in,.in>.rv-rule{transform:none}
+
+/* film grain, progress, cursor */
+.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:200;opacity:.06;background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.1s steps(5) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+.bar{position:fixed;left:0;top:0;height:2px;width:100%;background:var(--gold);transform:scaleX(0);transform-origin:left;z-index:120}
+.cur{position:fixed;left:0;top:0;width:40px;height:40px;margin:-20px 0 0 -20px;border:1px solid rgba(216,185,126,.65);border-radius:50%;pointer-events:none;z-index:250;display:none;place-items:center;transition:width .35s var(--ease),height .35s var(--ease),margin .35s var(--ease),background .35s,opacity .3s;opacity:0}
+.fine .cur{display:grid}.cur.on{opacity:1}
+.cur span{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#14110c;opacity:0;transition:opacity .2s;font-weight:500}
+.cur.big{width:86px;height:86px;margin:-43px 0 0 -43px;background:rgba(216,185,126,.92);border-color:transparent}
+.cur.big span{opacity:1}
+
+/* ============================================================
+   PRELOADER
+   ============================================================ */
+.pre{position:fixed;inset:0;z-index:300;background:var(--ink);display:grid;place-items:center;transition:clip-path 1.1s var(--ease),visibility 0s 1.1s;clip-path:inset(0)}
+.loaded .pre{clip-path:inset(0 0 100% 0);visibility:hidden}
+.pre-in{text-align:center;width:min(78vw,420px)}
+.pre-in .mark{width:44px;height:44px;margin:0 auto 22px;color:var(--gold2)}
+.pre-w{font-family:var(--serif);font-size:26px;letter-spacing:.34em;text-transform:uppercase;padding-left:.34em}
+.pre-w small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.5em;color:var(--mute);margin-top:6px;padding-left:.16em}
+.pre-line{height:1px;background:var(--line);margin:26px 0 14px;overflow:hidden}
+.pre-line i{display:block;height:100%;background:var(--gold2);transform:scaleX(0);transform-origin:left;animation:preline 1.15s var(--ease) forwards}
+@keyframes preline{to{transform:none}}
+.pre-t{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--mute)}
+.mark rect,.mark path{fill:none;stroke:currentColor}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{position:fixed;inset:0 0 auto 0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:26px var(--pad);transition:padding .6s var(--ease),background .5s,backdrop-filter .5s,transform .8s var(--ease);transform:translateY(-110%)}
+.loaded .nav{transform:none;transition-delay:.5s,0s,0s,.5s}
+.nav.solid{padding:13px var(--pad);background:rgba(11,10,8,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .mark{width:34px;height:34px;color:var(--gold2);transition:width .6s var(--ease),height .6s var(--ease)}
+.nav.solid .brand .mark{width:28px;height:28px}
+.brand-t{display:flex;flex-direction:column;line-height:1.05;text-transform:uppercase}
+.brand-t b{font-family:var(--serif);font-weight:500;font-size:17px;letter-spacing:.3em}
+.brand-t i{font-style:normal;font-size:9.5px;letter-spacing:.46em;color:var(--mute)}
+.nav-links{display:flex;gap:34px}
+.nav-links a,.foot-nav a{font-size:13px;letter-spacing:.14em;text-transform:uppercase;position:relative;padding:6px 0}
+.nav-links a::after,.foot-nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold2);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+.nav-links a:hover::after,.foot-nav a:hover::after{transform:none;transform-origin:left}
+.nav-r{display:flex;align-items:center;gap:16px}
+.tag{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2);border:1px solid rgba(216,185,126,.4);padding:5px 10px;white-space:nowrap}
+.burger{display:none;width:44px;height:44px;position:relative}
+.burger i{position:absolute;left:10px;right:10px;height:1px;background:var(--text);transition:transform .5s var(--ease),top .5s var(--ease)}
+.burger i:first-child{top:18px}.burger i:last-child{top:26px}
+.menu-open .burger i:first-child{top:22px;transform:rotate(45deg)}.menu-open .burger i:last-child{top:22px;transform:rotate(-45deg)}
+.menu{position:fixed;inset:0;z-index:98;background:var(--ink);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad);clip-path:inset(0 0 100% 0);transition:clip-path .9s var(--ease);visibility:hidden}
+.menu-open .menu{clip-path:inset(0);visibility:visible}
+.menu a{font-family:var(--serif);font-size:clamp(36px,10vw,60px);line-height:1.25;text-transform:uppercase;overflow:hidden;display:block}
+.menu a span{display:block;transform:translateY(110%);transition:transform .9s var(--ease);transition-delay:calc(var(--i)*60ms)}
+.menu-open .menu a span{transform:none}
+.menu p{margin-top:34px}
+@media(max-width:1080px){.nav-links{display:none}.burger{display:block}}
+@media(max-width:560px){.nav .tag,.nav .btn{display:none}.nav{padding:16px var(--pad)}}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;height:220vh;--hp:0;--mx:0;--my:0}
+.hero-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#0b0a08}
+.h-scene{position:absolute;inset:0;transform:scale(calc(1.14 - var(--hp)*.14));transform-origin:50% 46%;will-change:transform}
+.h-sky{position:absolute;inset:0;background:linear-gradient(180deg,#0a0c10 0%,#181b21 13%,#3a3431 25%,#86583a 35%,#d4975a 42.5%,#f6d8a2 46.4%,#2a2119 47%,#0b0a08 100%)}
+.h-sky::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,60,80,.25),transparent 44%);animation:breathe 14s ease-in-out infinite alternate}
+@keyframes breathe{from{opacity:.2}to{opacity:1}}
+.h-sun{position:absolute;left:66%;top:46%;width:70vmax;height:70vmax;margin:-35vmax 0 0 -35vmax;background:radial-gradient(circle,rgba(255,236,196,1) 0,rgba(255,214,150,.85) 3%,rgba(244,170,96,.5) 9%,rgba(214,130,70,.22) 24%,transparent 50%);transform:translate3d(calc(var(--mx)*-16px),calc(var(--my)*-8px),0);animation:sun 9s ease-in-out infinite alternate}
+@keyframes sun{from{opacity:.82}to{opacity:1}}
+.h-clouds{position:absolute;left:0;top:4%;height:40%;width:200%;will-change:transform}
+.h-clouds.c1{animation:drift 150s linear infinite}
+.h-clouds.c2{animation:drift 95s linear infinite;top:10%}
+@keyframes drift{to{transform:translate3d(-50%,0,0)}}
+.h-clouds i{position:absolute;border-radius:50%;filter:blur(26px);background:rgba(240,196,140,.16)}
+.h-clouds.c2 i{background:rgba(28,30,34,.55);filter:blur(34px)}
+.h-hills{position:absolute;left:-6%;width:112%;bottom:calc(54% - 3px);height:22vh}
+.h-hills.far{transform:translate3d(calc(var(--mx)*-10px),calc(var(--my)*-5px),0)}
+.h-hills.mid{height:13vh;transform:translate3d(calc(var(--mx)*-22px),calc(var(--my)*-9px),0)}
+.h-land{position:absolute;left:0;right:0;bottom:0;height:54%;background:linear-gradient(#2c2219,#15110d 28%,#0b0a08)}
+.h-ground{position:absolute;left:0;right:0;bottom:0;height:54%;perspective:1000px;perspective-origin:50% -10%;overflow:hidden;transform:translate3d(calc(var(--mx)*-34px),calc(var(--my)*-12px),0)}
+.h-tilt{position:absolute;left:50%;bottom:-6%;width:2600px;height:1625px;margin-left:-1300px;transform-origin:50% 100%;transform:rotateX(calc(69deg - var(--hp)*10deg));transform-style:preserve-3d;will-change:transform}
+.h-plane{position:absolute;inset:0;transform-origin:50% 86%;animation:camera 38s ease-in-out infinite alternate}
+@keyframes camera{from{transform:rotate(-3.5deg) translate3d(-40px,30px,0)}to{transform:rotate(3.5deg) translate3d(40px,-60px,0)}}
+.h-plane svg{width:100%;height:100%}
+.h-fog{position:absolute;left:-25%;width:150%;bottom:44%;height:20%;background:radial-gradient(ellipse at 50% 50%,rgba(240,200,150,.34),rgba(240,200,150,.1) 40%,transparent 68%);filter:blur(18px);animation:fog 24s ease-in-out infinite alternate;pointer-events:none}
+.h-fog.f2{bottom:30%;height:26%;opacity:.5;animation-duration:36s;animation-direction:alternate-reverse}
+@keyframes fog{from{transform:translate3d(-7%,0,0)}to{transform:translate3d(7%,0,0)}}
+.h-fore{position:absolute;bottom:-9%;width:min(30vw,400px);filter:blur(1.5px)}
+.h-fore.l{left:-4%;transform:translate3d(calc(var(--mx)*-70px),calc(var(--my)*-26px),0)}
+.h-fore.r{right:-4%;transform:translate3d(calc(var(--mx)*-70px),calc(var(--my)*-26px),0) scaleX(-1)}
+#hDust{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.h-vig{position:absolute;inset:0;background:radial-gradient(ellipse 62% 46% at 50% 42%,rgba(8,7,6,.5),rgba(8,7,6,.14) 62%,transparent 82%),linear-gradient(180deg,rgba(8,7,6,.5),transparent 20%,transparent 72%,rgba(8,7,6,.8));pointer-events:none}
+.h-veil{position:absolute;inset:0;background:#0b0a08;opacity:calc(var(--hp)*.55);pointer-events:none}
+.h-copy{position:absolute;left:0;right:0;top:50%;transform:translate3d(0,calc(-54% - var(--hp)*24vh),0);opacity:calc(1 - var(--hp)*1.9);filter:blur(calc(var(--hp)*12px));text-align:center;padding:0 var(--pad);will-change:transform,opacity}
+.h-eye{font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold2);opacity:0;transition:opacity 1.2s ease 1.5s}
+.h-logo{margin:clamp(10px,2.2vh,26px) 0 clamp(14px,2.6vh,30px)}
+.h-logo .mark{width:clamp(34px,4.4vh,50px);height:clamp(34px,4.4vh,50px);margin:0 auto clamp(4px,1.2vh,14px);color:var(--gold2);opacity:0;transform:scale(.7) rotate(-90deg);transition:opacity 1s ease .5s,transform 1.4s var(--ease) .5s}
+.h-word{font-family:var(--serif);font-weight:400;font-size:min(13.4vw,23vh,210px);line-height:.92;letter-spacing:.07em;padding-left:.07em;text-transform:uppercase;display:flex;justify-content:center;text-shadow:0 6px 60px rgba(0,0,0,.5)}
+.h-word span{display:block;overflow:hidden;padding-bottom:.06em}
+.h-word b{display:block;font-weight:400;transform:translateY(112%) rotate(6deg);transform-origin:0 100%;transition:transform 1.5s var(--ease);transition-delay:calc(.55s + var(--i)*70ms)}
+.h-dev{display:flex;align-items:center;justify-content:center;gap:clamp(12px,2vw,30px);margin-top:clamp(2px,.8vh,10px);font-size:clamp(11px,1.2vw,16px);letter-spacing:.74em;text-transform:uppercase}
+.h-dev span{padding-left:.74em;opacity:0;transition:opacity 1.2s ease 1.25s}
+.h-dev i{height:1px;width:clamp(30px,9vw,150px);background:var(--gold2);transform:scaleX(0);transition:transform 1.4s var(--ease) 1.1s}
+.h-dev i:first-child{transform-origin:right}.h-dev i:last-child{transform-origin:left}
+.h-line{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(24px,3.3vw,50px);line-height:1.1}
+.h-line span{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .12em .12em 0}
+.h-line b{display:inline-block;font-weight:400;transform:translateY(112%);transition:transform 1.3s var(--ease);transition-delay:calc(1.35s + var(--i)*80ms)}
+.h-sub{max-width:30em;margin:12px auto 0;color:rgba(236,228,212,.82);opacity:0;transform:translateY(14px);transition:opacity 1.2s ease 1.8s,transform 1.2s var(--ease) 1.8s}
+.h-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:clamp(16px,3vh,32px);opacity:0;transform:translateY(14px);transition:opacity 1.2s ease 2s,transform 1.2s var(--ease) 2s}
+.loaded .h-eye,.loaded .h-dev span{opacity:1}
+.loaded .h-logo .mark{opacity:1;transform:none}
+.loaded .h-word b,.loaded .h-line b{transform:none}
+.loaded .h-dev i{transform:none}
+.loaded .h-sub,.loaded .h-btns{opacity:1;transform:none}
+.h-meta{position:absolute;bottom:30px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:rgba(236,228,212,.75);opacity:calc(1 - var(--hp)*3);line-height:1.7}
+.h-meta.l{left:var(--pad)}.h-meta.r{right:var(--pad);text-align:right}
+.h-meta b{display:block;font-weight:400;color:var(--gold2)}
+.h-scroll{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:10.5px;letter-spacing:.36em;text-transform:uppercase;padding-left:.36em;opacity:calc(1 - var(--hp)*4)}
+.h-scroll i{display:block;width:1px;height:46px;background:rgba(236,228,212,.25);position:relative;overflow:hidden}
+.h-scroll i::after{content:"";position:absolute;left:0;top:0;width:100%;height:100%;background:var(--gold2);animation:scrolly 2.4s var(--ease) infinite}
+@keyframes scrolly{0%{transform:translateY(-100%)}55%{transform:none}100%{transform:translateY(100%)}}
+@media(max-width:899px){
+  .h-tilt{width:1500px;height:938px;margin-left:-750px}.h-ground{perspective:720px}
+  .h-word{font-size:min(16.4vw,16vh)}.h-meta{display:none}.h-sub{font-size:15.5px}
+  .h-btns .btn{padding:14px 20px;font-size:12px}.h-fore{width:44vw}
+}
+
+/* ============================================================
+   INTRO
+   ============================================================ */
+.intro{position:relative;z-index:3;margin-top:-100vh;background:var(--paper);color:var(--ink);padding:clamp(90px,14vh,170px) 0 clamp(70px,10vh,130px);--ip:1;clip-path:inset(0 calc((1 - var(--ip))*6%) 0 calc((1 - var(--ip))*6%) round calc((1 - var(--ip))*44px) calc((1 - var(--ip))*44px) 0 0)}
+.intro .label{color:#8a6a38}
+.mega{font-family:var(--serif);font-weight:400;font-size:clamp(54px,12.5vw,220px);line-height:.88;letter-spacing:-.02em;text-transform:uppercase;margin:18px 0 0 -.04em}
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:clamp(30px,5vw,70px);align-items:end}
+.intro-grid .lead{grid-column:2}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,3vw,50px);margin-top:clamp(60px,9vw,130px)}
+.stat{border-top:1px solid var(--lineD);padding-top:20px}
+.stat-n{font-family:var(--serif);font-size:clamp(30px,4.3vw,76px);line-height:1;white-space:nowrap}
+.stat-l{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;margin-top:12px;color:#5b5143}
+@media(max-width:820px){.intro-grid{grid-template-columns:1fr}.intro-grid .lead{grid-column:1}.stats{grid-template-columns:1fr 1fr;row-gap:36px}}
+
+/* ============================================================
+   MASTERPLAN
+   ============================================================ */
+.plan{position:relative;background:#0d0c0a}
+.plan-pin{display:flex;flex-direction:column}
+.plan-side{padding:84px var(--pad) 20px;display:flex;flex-direction:column;gap:18px}
+.plan-side .h2{font-size:clamp(34px,3.5vw,54px)}
+.plan-side p.lead{font-size:16px;color:var(--mute)}
+.stages{list-style:none;counter-reset:st;display:none}
+.stages li{counter-increment:st;display:flex;gap:14px;align-items:baseline;font-size:14px;color:rgba(236,228,212,.3);padding:3px 0;transition:color .5s}
+.stages li::before{content:"0" counter(st);font-size:11px;letter-spacing:.1em;font-variant-numeric:tabular-nums}
+.stages li.done{color:rgba(236,228,212,.62)}.stages li.now{color:var(--gold2)}
+.plan-prog{height:1px;background:var(--line);position:relative}
+.plan-prog i{position:absolute;inset:0;background:var(--gold2);transform:scaleX(0);transform-origin:left}
+.plan-now{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2);min-height:1.6em}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;list-style:none}
+.legend li{display:flex;align-items:center;gap:9px;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase}
+.legend b{font-weight:400;color:var(--mute);font-variant-numeric:tabular-nums}
+.sw{width:14px;height:14px;display:inline-block;flex:none}
+.sw.av,.badge.av{background:#cbbd9f}.sw.pr,.badge.pr{background:#c9a25a}.sw.ho,.badge.ho{background:#9a6046}
+.sw.so,.badge.so{background:repeating-linear-gradient(45deg,#4a4238 0 2px,#2a2520 2px 5px)}
+.plan-map{position:relative;flex:1;min-height:0}
+.pv{position:relative;height:66vh;height:66svh;overflow:hidden;touch-action:pan-y;background:radial-gradient(ellipse at 50% 60%,#16140f,#0a0908 80%);border-top:1px solid var(--line);border-bottom:1px solid var(--line);user-select:none;-webkit-user-select:none}
+.pv.live{cursor:grab;touch-action:none}.pv.grabbing{cursor:grabbing}
+.pv svg{width:100%;height:100%}
+.pv-ui{position:absolute;right:16px;bottom:16px;display:flex;flex-direction:column;gap:1px;opacity:0;transition:opacity .6s;pointer-events:none}
+.pv.live .pv-ui{opacity:1;pointer-events:auto}
+.pv-ui button{width:44px;height:44px;background:rgba(20,18,15,.9);border:1px solid var(--line);font-size:20px;line-height:1;transition:background .3s,color .3s}
+.pv-ui button:hover{background:var(--gold2);color:var(--ink)}
+.pv-ui button.txt{font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.pv-hint{position:absolute;left:16px;bottom:16px;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;background:rgba(11,10,8,.8);border:1px solid var(--line);padding:9px 16px;white-space:nowrap;pointer-events:none;transition:opacity .6s;max-width:calc(100% - 92px);overflow:hidden;text-overflow:ellipsis}
+.pv-tip{position:absolute;left:0;top:0;pointer-events:none;background:var(--paper);color:var(--ink);padding:8px 12px;font-size:12px;letter-spacing:.08em;white-space:nowrap;opacity:0;transition:opacity .2s;z-index:5}
+.pv-tip b{font-family:var(--serif);font-size:16px;font-weight:500;margin-right:8px;letter-spacing:0}
+.pv-tip.on{opacity:1}
+
+/* masterplan drawing */
+.mp .site{fill:#12110e;stroke:rgba(216,185,126,.4);stroke-width:1.5}
+.mp .grn{fill:#253020}.mp .lawn{fill:#33432a}
+.mp .tree{fill:#4a5e3a;stroke:#70875a;stroke-width:.8}
+.mp .trail{fill:none;stroke:#9a8a62;stroke-width:1.6;stroke-dasharray:4 5}
+.mp .pth{fill:none;stroke:#5d563f;stroke-width:3}
+.mp .road{fill:none;stroke:#2f2b24;stroke-dasharray:1 1;stroke-dashoffset:1}
+.mp .road.main{stroke-width:44}.mp .road.sec{stroke-width:28}
+.mp .rbt{fill:#2f2b24}
+.mp .mark{fill:none;stroke:rgba(216,185,126,.55);stroke-width:1;stroke-dasharray:7 9}
+.mp .median{stroke:#33432a;stroke-width:7;fill:none}
+.mp .plot{fill:#cbbd9f;fill-opacity:0;stroke:rgba(216,185,126,.75);stroke-width:1;opacity:0;transition:opacity .5s,fill-opacity .9s,stroke .4s,stroke-width .3s}
+.mp .plot.on{opacity:1}
+.mp .plot.s-pr{fill:#c9a25a}.mp .plot.s-ho{fill:#9a6046}
+.mp.filled .plot{fill-opacity:.92;stroke:#12110e;stroke-width:1.4}
+.mp.live .plot{cursor:pointer}
+.mp.hovering .plot.on{opacity:.55}
+.mp.has-sel .plot.on{opacity:.32}
+.mp .plot.on.hov{opacity:1;stroke:#fff8e6;stroke-width:2.2}
+.mp .plot.on.sel{opacity:1;stroke:#fff1cf;stroke-width:3.2;fill-opacity:1;filter:drop-shadow(0 0 9px rgba(240,205,140,.95))}
+.mp .dim{transition:opacity .7s}.mp.has-sel .dim{opacity:.42}
+.mp .bld{fill:#b9a77f;stroke:#12110e;stroke-width:1}.mp .bld2{fill:#8f7f5c}
+.mp .amc{fill:rgba(216,185,126,.1);stroke:#b8935a;stroke-width:1.2}
+.mp .amc.dash{stroke-dasharray:3 4}
+.mp .gate{fill:#d8b97e}
+.mp text{font-family:var(--sans);pointer-events:none}
+.mp .alabel{font-size:8.5px;letter-spacing:.16em;fill:#d8b97e;text-anchor:middle;font-weight:500}
+.mp .rlabel{font-size:6.5px;letter-spacing:.2em;fill:#857b68;text-anchor:middle}
+.mp .zlabel{font-size:9px;letter-spacing:.22em;fill:#8f9c7a;text-anchor:middle}
+.mp .plabel{font-size:7.6px;font-weight:500;fill:#1a1814;text-anchor:middle;opacity:0;transition:opacity .4s}
+.mp .plabel.l-so{fill:#a59c8b}
+.mp.zoomed.filled .plabel{opacity:.9}
+.mp.has-sel.zoomed .plabel{opacity:.35}
+.mp .cmp{fill:none;stroke:#a59c8b;stroke-width:1}
+/* hero copy of the plan (always fully drawn, lit at dusk) */
+.mp.lite .road{stroke-dashoffset:0;stroke:#100e0b}
+.mp.lite .plot{opacity:1;fill-opacity:.2;stroke:rgba(232,196,134,.7);stroke-width:1.2}
+.mp.lite .plot.s-pr{fill-opacity:.75}.mp.lite .plot.s-so{fill-opacity:.07}
+.mp.lite .site{fill:#17130e;stroke:rgba(232,196,134,.6)}
+.mp.lite .mark{stroke:rgba(255,214,150,.95);stroke-width:1.6}
+.mp.lite .grn{fill:#2c3a22}.mp.lite .tree{fill:#56703f}
+
+/* plot panel (side panel on desktop, bottom sheet on mobile) */
+.pp{position:fixed;left:0;right:0;bottom:0;z-index:90;background:var(--paper);color:var(--ink);padding:10px 22px calc(22px + env(safe-area-inset-bottom));border-radius:20px 20px 0 0;transform:translateY(105%);transition:transform .7s var(--ease);max-height:74svh;overflow:auto;box-shadow:0 -20px 60px rgba(0,0,0,.5)}
+.pp.open{transform:none}
+.pp-grab{width:44px;height:4px;border-radius:4px;background:rgba(20,18,15,.25);margin:0 auto 12px;touch-action:none}
+.pp-x{position:absolute;right:12px;top:12px;width:40px;height:40px;font-size:24px;line-height:1;border:1px solid var(--lineD);border-radius:50%;transition:background .3s,color .3s}
+.pp-x:hover{background:var(--ink);color:var(--paper)}
+.badge{display:inline-block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:5px 10px;color:#14110c;font-weight:500}
+.badge.so{color:#e9dfca}.badge.ho{color:#fff3e6}
+.pp-zone{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6b6152;margin-left:10px}
+#ppBody>div:first-child{padding-right:46px}
+.pp-id{font-family:var(--serif);font-weight:400;font-size:clamp(40px,9vw,58px);line-height:1;text-transform:uppercase;margin:12px 0 4px}
+.pp-size{font-size:17px}.pp-size b{font-family:var(--serif);font-size:26px;font-weight:500}
+.pp-price{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--lineD);border-bottom:1px solid var(--lineD);margin:14px 0 4px}
+.pp-price div{padding:12px 0}.pp-price div+div{border-left:1px solid var(--lineD);padding-left:16px}
+.pp-price span,.pp dt{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6b6152}
+.pp-price b{font-family:var(--serif);font-weight:500;font-size:26px}
+.pp dl{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.pp dl div{padding:9px 0;border-bottom:1px solid var(--lineD)}
+.pp dd{font-size:15.5px;font-weight:400}
+.pp .btn{width:100%;margin-top:16px}
+.pp .note{margin-top:10px;color:#6b6152;text-align:center}
+
+@media(min-width:900px){
+  .plan-pin{height:100vh;display:grid;grid-template-columns:clamp(300px,25vw,390px) 1fr}
+  .plan-side{padding:104px 28px 28px var(--pad);gap:16px;justify-content:center;border-right:1px solid var(--line)}
+  .stages{display:block}.plan-now{display:none}
+  .legend{flex-direction:column;gap:7px}
+  .pv{height:100%;border:0}
+  .pp{position:absolute;left:auto;right:18px;top:92px;bottom:18px;width:348px;border-radius:0;transform:translateX(calc(100% + 30px));max-height:none;padding:26px 26px 22px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .pp-grab{display:none}
+  .pv-ui{right:18px;bottom:18px;transition:opacity .6s,transform .7s var(--ease)}
+  .plan-map.sel-open .pv-ui{transform:translateX(-378px)}
+}
+@media(min-width:900px) and (prefers-reduced-motion:no-preference){
+  .plan{height:340vh}.plan-pin{position:sticky;top:0}
+}
+@media(min-width:900px) and (max-height:760px){.plan-side p.lead{display:none}.plan-side{padding-top:84px}}
+
+/* ============================================================
+   THE PROJECT
+   ============================================================ */
+.proj{background:var(--char);padding:clamp(90px,13vw,190px) 0}
+.proj-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(30px,6vw,110px);align-items:center}
+.frame{position:relative;overflow:hidden;aspect-ratio:4/5}
+.frame-in{position:absolute;inset:-9% 0;will-change:transform}
+.scn,.frame img,.tile img{width:100%;height:100%;object-fit:cover}
+.frame figcaption,.tile figcaption{position:absolute;left:16px;bottom:14px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(236,228,212,.85);text-shadow:0 1px 10px rgba(0,0,0,.8);z-index:2}
+.facts{margin-top:36px}
+.fact{display:grid;grid-template-columns:minmax(120px,38%) 1fr;gap:16px;padding:18px 0;position:relative;align-items:baseline}
+.fact .rv-rule{position:absolute;left:0;right:0;top:0;height:1px;background:var(--line)}
+.fact dt{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.fact dd{font-family:var(--serif);font-size:clamp(20px,2.1vw,30px);line-height:1.2}
+@media(max-width:899px){.proj-grid{grid-template-columns:1fr}.frame{aspect-ratio:4/4.4}}
+
+/* ============================================================
+   LOCATION
+   ============================================================ */
+.loc{background:#0c0f0c;padding:clamp(90px,12vw,170px) 0;position:relative;overflow:hidden}
+.loc-grid{display:grid;grid-template-columns:minmax(300px,.8fr) 1.5fr;gap:clamp(24px,4vw,70px);align-items:center;margin-top:clamp(30px,4vw,60px)}
+.conn{list-style:none}
+.conn li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0;border-top:1px solid var(--line);transition:padding .5s var(--ease),color .4s;cursor:default}
+.conn li:last-child{border-bottom:1px solid var(--line)}
+.conn li>span{font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+.conn li>span small{display:block;font-size:12px;letter-spacing:.04em;text-transform:none;color:var(--mute)}
+.conn li b{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.4vw,50px);line-height:1;white-space:nowrap}
+.conn li b i{font-family:var(--sans);font-style:normal;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-left:6px}
+.conn li.hot{padding-left:16px;color:var(--gold2)}
+.map{position:relative;border:1px solid var(--line);background:radial-gradient(ellipse at 52% 54%,#162017,#0a0d0a 75%)}
+.map svg{width:100%;height:auto}
+.map .ct{fill:none;stroke:rgba(143,156,122,.16);stroke-width:1}
+.map .hw{fill:none;stroke:rgba(236,228,212,.1);stroke-width:9;stroke-linecap:round}
+.map .blk{fill:rgba(236,228,212,.09)}
+.map .rt{fill:none;stroke:var(--gold2);stroke-width:1.6;stroke-dasharray:1 1;stroke-dashoffset:1;transition:stroke-dashoffset 2.2s var(--ease),opacity .4s,stroke-width .3s;transition-delay:calc(var(--i)*220ms),0s,0s}
+.map.in .rt{stroke-dashoffset:0}
+.map .nd{opacity:0;transition:opacity .9s ease;transition-delay:calc(1s + var(--i)*220ms)}
+.map.in .nd{opacity:1}
+.map .nd circle{fill:#0a0d0a;stroke:var(--gold2);stroke-width:1.6}
+.map .nd .nm{font-family:var(--sans);font-size:15px;letter-spacing:.18em;fill:var(--text)}
+.map .nd .tm{font-family:var(--serif);font-size:30px;fill:var(--gold2)}
+.map .dot{fill:#fff1cf}
+.map.dimmed .rt:not(.hot),.map.dimmed .nd:not(.hot){opacity:.22}
+.map .rt.hot{stroke-width:3}
+.map .site-r{fill:none;stroke:var(--gold2);stroke-width:1.2;transform-box:fill-box;transform-origin:center;animation:ping 3.4s ease-out infinite}
+.map .site-r.b{animation-delay:1.7s}
+@keyframes ping{from{transform:scale(.3);opacity:.9}to{transform:scale(2.6);opacity:0}}
+.map .site-n{font-family:var(--serif);font-size:24px;fill:var(--text);text-anchor:middle;letter-spacing:.08em}
+.map-note{position:absolute;right:14px;bottom:12px}
+@media(max-width:899px){.loc-grid{grid-template-columns:1fr}.map{order:-1}.map-note{position:static;padding:0 12px 10px}}
+
+/* ============================================================
+   AMENITIES (vertical scroll drives a horizontal track)
+   ============================================================ */
+.amen{background:var(--paper);color:var(--ink);position:relative}
+.amen-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(22px,4vh,48px);padding-top:60px}
+.amen-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;padding:0 var(--pad)}
+.amen-head .h2{font-size:clamp(36px,5.4vw,88px)}
+.amen-head p{max-width:24em;font-size:15px;color:#5b5143}
+.amen-track{display:flex;gap:clamp(14px,1.8vw,28px);padding:0 var(--pad);width:max-content;will-change:transform;--p:0}
+.card{flex:none;width:clamp(250px,23vw,340px);height:clamp(310px,48vh,430px);background:var(--paper2);padding:26px;display:flex;flex-direction:column;justify-content:space-between;position:relative;transform:translate3d(0,calc((var(--p) - .5)*var(--amp)),0);transition:background .5s,color .5s}
+.card:nth-child(odd){--amp:54px}.card:nth-child(even){--amp:-54px}
+.card:nth-child(3n+1){background:var(--char);color:var(--text)}
+.card:nth-child(4n+3){background:var(--green);color:#f1ecdf}
+.card svg{width:54px;height:54px;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.3vw,36px);line-height:1.05}
+.card p{font-size:14.5px;margin-top:10px;opacity:.82}
+.card em{position:absolute;right:20px;top:20px;font-style:normal;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;opacity:.55}
+.amen-foot{display:flex;align-items:center;gap:18px;padding:0 var(--pad)}
+.amen-bar{flex:1;height:1px;background:var(--lineD);position:relative}
+.amen-bar i{position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:left}
+.amen-foot .note{color:#5b5143}
+.amen.native .amen-pin{position:static;height:auto;overflow:visible;padding:clamp(80px,12vw,130px) 0}
+.amen.native .amen-track{width:auto;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:6px}
+.amen.native .amen-track::-webkit-scrollbar{display:none}
+.amen.native .card{scroll-snap-align:center;transform:none;width:min(78vw,320px);height:340px}
+.amen.native .amen-bar{display:none}
+@media(max-width:899px){.amen-head{flex-direction:column;align-items:flex-start;gap:14px}}
+
+/* ============================================================
+   STORY
+   ============================================================ */
+.story{background:var(--ink);position:relative}
+.story-head{padding:clamp(90px,12vw,170px) var(--pad) clamp(20px,4vw,50px);max-width:1560px;margin:0 auto}
+.story-grid{display:grid;grid-template-columns:1.15fr 1fr;max-width:1560px;margin:0 auto;padding:0 var(--pad)}
+.stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1500px}
+.stage svg{width:min(74%,580px);overflow:visible;transform:rotateX(57deg) rotateZ(-45deg);animation:model 16s ease-in-out infinite alternate}
+@keyframes model{from{transform:rotateX(57deg) rotateZ(-49deg)}to{transform:rotateX(57deg) rotateZ(-40deg)}}
+.stage-w{position:absolute;left:0;bottom:9vh;font-family:var(--serif);font-size:clamp(44px,7vw,120px);line-height:1;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(216,185,126,.5);transition:opacity .4s}
+.sl{opacity:0;transition:opacity 1s ease}.sl.on{opacity:1}
+.s-land{fill:#191611;stroke:rgba(216,185,126,.6);stroke-width:1.5}
+.s-cont{fill:none;stroke:rgba(216,185,126,.28);stroke-width:1;stroke-dasharray:3 6}
+.s-plot{fill:none;stroke:rgba(216,185,126,.6);stroke-width:1}
+.s-dim{fill:none;stroke:#a59c8b;stroke-width:1}
+.s-road{fill:none;stroke:#3a352c;stroke-width:28;stroke-dasharray:1 1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s var(--ease)}
+.l3.on .s-road{stroke-dashoffset:0}
+.s-mark{fill:none;stroke:rgba(216,185,126,.6);stroke-width:1;stroke-dasharray:6 8}
+.l4 circle,.l5 rect,.l6 .hm{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .8s cubic-bezier(.3,1.5,.5,1);transition-delay:calc(var(--d)*1ms)}
+.l4.on circle,.l5.on rect,.l6.on .hm{transform:none}
+.l4 circle{fill:#4a5e3a;stroke:#70875a}.l4 .lw{fill:#33432a;stroke:none}
+.l5 rect{fill:#cbbd9f}.l5 .cl{fill:#b8935a}
+.l6 .hp{fill:rgba(216,185,126,.35);stroke:#f0d49a;stroke-width:2.5}.l6 .hm{fill:#fff1cf}
+.l6 .ring{fill:none;stroke:#f0d49a;stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:ping 2.8s ease-out infinite}
+.steps{padding:18vh 0 30vh}
+.step{min-height:78vh;display:flex;flex-direction:column;justify-content:center;opacity:.22;transition:opacity .7s}
+.step.on{opacity:1}
+.step i{font-style:normal;font-size:12px;letter-spacing:.24em;color:var(--gold)}
+.step h3{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5vw,84px);line-height:1;text-transform:uppercase;margin:10px 0 16px}
+.step p{max-width:26em;color:rgba(236,228,212,.8)}
+@media(max-width:899px){
+  .story-grid{grid-template-columns:1fr}
+  .stage{height:46svh;z-index:2;background:linear-gradient(var(--ink) 82%,transparent)}
+  .stage svg{width:min(60%,300px)}.stage-w{display:none}
+  .steps{padding:4vh 0 10vh}.step{min-height:52vh}
+}
+
+/* ============================================================
+   GALLERY
+   ============================================================ */
+.gal{background:var(--char);padding:clamp(90px,12vw,170px) 0}
+.gal-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
+.gal-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:7.2vw;gap:clamp(8px,1.2vw,18px);margin-top:clamp(30px,5vw,70px)}
+.tile{position:relative;overflow:hidden;cursor:pointer}
+.tile-in{position:absolute;inset:-8% 0}
+.tile:hover .scn,.tile:hover img{transform:scale(1.06)}
+.tile .scn,.tile img{transition:transform 1.6s var(--ease)}
+
+.tile:nth-child(1){grid-column:1/8;grid-row:span 5}.tile:nth-child(2){grid-column:8/13;grid-row:span 5}
+.tile:nth-child(3){grid-column:1/5;grid-row:span 4}.tile:nth-child(4){grid-column:5/9;grid-row:span 4}.tile:nth-child(5){grid-column:9/13;grid-row:span 4}
+.tile:nth-child(6){grid-column:1/6;grid-row:span 5}.tile:nth-child(7){grid-column:6/13;grid-row:span 5}
+.tile:nth-child(8){grid-column:1/13;grid-row:span 5}
+@media(max-width:820px){
+  .gal-grid{grid-template-columns:1fr 1fr;grid-auto-rows:34vw}
+  .gal-grid .tile{grid-column:auto;grid-row:span 1}
+  .gal-grid .tile:nth-child(3n+1){grid-column:1/3;grid-row:span 2}
+}
+.lb{position:fixed;inset:0;z-index:160;background:rgba(6,5,4,.96);display:grid;place-items:center;opacity:0;visibility:hidden;transition:opacity .5s,visibility 0s .5s}
+.lb.open{opacity:1;visibility:visible;transition:opacity .5s}
+.lb-stage{width:min(94vw,170vh);aspect-ratio:16/10;max-height:84vh;overflow:hidden;clip-path:inset(8%);transition:clip-path 1s var(--ease)}
+.lb.open .lb-stage{clip-path:inset(0)}
+.lb-cap{position:absolute;left:var(--pad);bottom:22px;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.lb button{position:absolute;width:52px;height:52px;border:1px solid var(--line);border-radius:50%;font-size:22px;background:rgba(11,10,8,.6);transition:background .3s,color .3s}
+.lb button:hover{background:var(--gold2);color:var(--ink)}
+.lb-x{right:20px;top:20px}.lb-p{left:20px;top:50%;margin-top:-26px}.lb-n{right:20px;top:50%;margin-top:-26px}
+
+/* ============================================================
+   WHY
+   ============================================================ */
+.why{background:var(--paper);color:var(--ink);padding:clamp(90px,12vw,170px) 0}
+.why .label{color:#8a6a38}
+.why-list{margin-top:clamp(30px,5vw,70px)}
+.why-row{position:relative;display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center;padding:clamp(22px,3vw,42px) 0;transition:padding .6s var(--ease)}
+.why-row .rv-rule{position:absolute;left:0;right:0;top:0;height:1px;background:var(--lineD)}
+.why-row h3{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4.6vw,76px);line-height:1;transition:transform .7s var(--ease),color .5s}
+.why-row p{max-width:28em;color:#4b4338}
+@media(hover:hover){.why-row:hover h3{transform:translateX(22px);color:#8a6a38;font-style:italic}}
+.why .note{color:#5b5143;margin-top:26px;max-width:60em}
+@media(max-width:820px){.why-row{grid-template-columns:1fr;gap:10px}}
+
+/* ============================================================
+   FIND YOUR PLOT
+   ============================================================ */
+.find{background:var(--char2);padding:clamp(90px,12vw,160px) 0}
+.find-grid{display:grid;grid-template-columns:minmax(280px,.8fr) 1.4fr;gap:clamp(30px,5vw,90px);margin-top:clamp(30px,4vw,60px)}
+.fgroup{margin-bottom:26px}
+.fgroup h4{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:400;color:var(--mute);margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:9px 16px;border:1px solid var(--line);font-size:13.5px;transition:background .35s,color .35s,border-color .35s}
+.chip:hover{border-color:var(--gold2)}
+.chip[aria-pressed="true"]{background:var(--gold2);border-color:var(--gold2);color:#14110c;font-weight:400}
+.res-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:6px;gap:16px}
+.res-head b{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.4vw,50px);line-height:1}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:0 30px}
+.rcard{display:grid;grid-template-columns:auto 1fr auto;gap:6px 16px;align-items:baseline;text-align:left;padding:15px 0;border-bottom:1px solid var(--line);width:100%;animation:rin .7s var(--ease) both;animation-delay:calc(var(--i)*45ms);transition:padding .4s var(--ease),color .3s}
+@keyframes rin{from{opacity:0;transform:translateY(14px)}}
+.rcard:hover{padding-left:10px;color:var(--gold2)}
+.rcard b{font-family:var(--serif);font-weight:400;font-size:25px}
+.rcard span{font-size:14px;color:var(--mute)}
+.rcard i{font-style:normal;font-family:var(--serif);font-size:21px}
+.rcard .sw{width:9px;height:9px;margin-right:8px;vertical-align:1px}
+.res-empty{padding:30px 0;color:var(--mute)}
+@media(max-width:899px){.find-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.res{grid-template-columns:1fr}}
+
+/* ============================================================
+   SPEC SHEET
+   ============================================================ */
+.spec{background:var(--ink);padding:clamp(90px,12vw,170px) 0}
+.spec-grid{display:grid;grid-template-columns:.8fr 1.5fr;gap:clamp(30px,5vw,90px)}
+.spec-grid>div:first-child{position:sticky;top:110px;align-self:start}
+.spec .fact dd{font-size:clamp(18px,1.7vw,25px)}
+@media(max-width:899px){.spec-grid{grid-template-columns:1fr}.spec-grid>div:first-child{position:static}}
+
+/* ============================================================
+   CTA + FOOTER
+   ============================================================ */
+.cta{position:relative;min-height:100vh;min-height:100svh;display:grid;place-items:center;overflow:hidden;text-align:center;padding:120px var(--pad)}
+.cta-bg{position:absolute;inset:-12% 0;will-change:transform}
+.cta::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(11,10,8,.7),rgba(11,10,8,.48) 45%,rgba(11,10,8,.92))}
+.cta-in{position:relative;z-index:2}
+.cta .mega{font-size:clamp(50px,11.5vw,200px);margin:0;text-shadow:0 6px 60px rgba(0,0,0,.5)}
+.cta .lead{margin:26px auto 34px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.foot{background:#070605;padding:clamp(50px,7vw,90px) 0 30px}
+.foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-end}
+.foot-brand{font-family:var(--serif);font-size:clamp(34px,6vw,96px);line-height:.95;text-transform:uppercase;letter-spacing:.04em}
+.foot-brand small{display:block;font-family:var(--sans);font-size:14px;letter-spacing:.1em;text-transform:none;color:var(--mute);margin-top:16px}
+.foot-nav{display:flex;gap:10px 28px;flex-wrap:wrap}
+.foot-bot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:50px;padding-top:20px}
+
+/* ============================================================
+   ENQUIRY MODAL
+   ============================================================ */
+.modal{position:fixed;inset:0;z-index:150;display:grid;place-items:center;padding:16px;background:rgba(6,5,4,.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .5s,visibility 0s .5s}
+.modal.open{opacity:1;visibility:visible;transition:opacity .5s}
+.modal-in{position:relative;width:min(100%,880px);max-height:92svh;overflow:auto;background:var(--paper);color:var(--ink);display:grid;grid-template-columns:.8fr 1.2fr;transform:translateY(40px) scale(.97);transition:transform .8s var(--ease)}
+.modal.open .modal-in{transform:none}
+.modal-l{background:var(--char);color:var(--text);padding:36px 30px;display:flex;flex-direction:column;justify-content:space-between;gap:30px}
+.modal-l h3{font-family:var(--serif);font-weight:400;font-size:38px;line-height:1.02;text-transform:uppercase}
+.modal-l .mark{width:36px;height:36px;color:var(--gold2)}
+.modal-r{padding:36px 30px 30px}
+.fld{position:relative;margin-bottom:16px}
+.fld label{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#6b6152;margin-bottom:4px}
+.fld input,.fld select,.fld textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid rgba(20,18,15,.35);padding:8px 0;border-radius:0;outline:0;transition:border-color .3s}
+.fld textarea{resize:vertical;min-height:60px}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:#8a6a38;box-shadow:0 1px 0 #8a6a38}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+.modal-r .btn{width:100%;margin-top:6px}
+.f-note{font-size:12.5px;color:#6b6152;margin-top:12px}
+.f-err{color:#8c3b22;font-size:13px;min-height:1.4em}
+.done h4{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.1;margin-bottom:12px}
+.done pre{font:inherit;font-size:14px;white-space:pre-wrap;background:var(--paper2);padding:16px;margin:16px 0;max-height:220px;overflow:auto}
+.modal-x{position:absolute;right:12px;top:12px;width:40px;height:40px;font-size:24px;line-height:1;border:1px solid var(--lineD);border-radius:50%;z-index:2;background:var(--paper);color:var(--ink)}
+@media(max-width:720px){.modal-in{grid-template-columns:1fr}.modal-l{padding:26px 22px;gap:14px}.modal-l h3{font-size:28px}.modal-r{padding:24px 22px}.f2{grid-template-columns:1fr}}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  .grain{display:none}
+  .ln>span,.rv-fade,.rv-rule,.h-word b,.h-line b{transform:none!important;opacity:1!important}
+  .rv-clip>*{clip-path:none!important}
+  .hero{height:100vh}.intro{margin-top:0;clip-path:none}
+  .h-copy{filter:none}
+}
+</style>
+<noscript><style>.pre{display:none}.nav{transform:none}</style></noscript>
+</head>
+<body>
+
+<div class="pre" aria-hidden="true">
+  <div class="pre-in">
+    <svg class="mark" viewBox="0 0 40 40"><rect x="1" y="1" width="38" height="38" stroke-width="1.2"/><path d="M28 11H12v9h16v9H12" stroke-width="1.8"/></svg>
+    <div class="pre-w"><span data-dev="first">Specter</span><small data-dev="rest">Developers</small></div>
+    <div class="pre-line"><i></i></div>
+    <div class="pre-t">Loading</div>
+  </div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="bar" id="bar" aria-hidden="true"></div>
+<div class="cur" id="cur" aria-hidden="true"><span></span></div>
+
+<nav class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Specter Developers, back to top">
+    <svg class="mark" viewBox="0 0 40 40"><rect x="1" y="1" width="38" height="38" stroke-width="1.2"/><path d="M28 11H12v9h16v9H12" stroke-width="1.8"/></svg>
+    <span class="brand-t"><b data-dev="first">SPECTER</b><i data-dev="rest">DEVELOPERS</i></span>
+  </a>
+  <div class="nav-links">
+    <a href="#project">Project</a><a href="#plots">Plots</a><a href="#location">Location</a><a href="#amenities">Amenities</a><a href="#gallery">Gallery</a><a href="#contact" data-enquire>Contact</a>
+  </div>
+  <div class="nav-r">
+    <span class="tag" data-bind="demoLabel"></span>
+    <button class="btn sm" data-enquire>Enquire</button>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><i></i><i></i></button>
+  </div>
+</nav>
+<div class="menu" id="menu">
+  <a href="#project"><span style="--i:0">Project</span></a>
+  <a href="#plots"><span style="--i:1">Plots</span></a>
+  <a href="#location"><span style="--i:2">Location</span></a>
+  <a href="#amenities"><span style="--i:3">Amenities</span></a>
+  <a href="#gallery"><span style="--i:4">Gallery</span></a>
+  <a href="#contact" data-enquire><span style="--i:5">Contact</span></a>
+  <p class="note"><span data-bind="demoLabel"></span>, synthetic demonstration data</p>
+</div>
+
+<main>
+<!-- ======================= HERO ======================= -->
+<header class="hero" id="top">
+  <div class="hero-pin">
+    <div class="h-scene" id="hScene" aria-hidden="true">
+      <div class="h-sky"></div>
+      <div class="h-sun"></div>
+      <div class="h-clouds c1"></div>
+      <div class="h-clouds c2"></div>
+      <svg class="h-hills far" id="hHillFar" viewBox="0 0 1600 300" preserveAspectRatio="none"></svg>
+      <div class="h-land"></div>
+      <svg class="h-hills mid" id="hHillMid" viewBox="0 0 1600 300" preserveAspectRatio="none"></svg>
+      <div class="h-ground"><div class="h-tilt"><div class="h-plane"><svg class="mp lite" id="heroPlan" viewBox="0 0 1600 1000"></svg></div></div></div>
+      <div class="h-fog"></div><div class="h-fog f2"></div>
+      <svg class="h-fore l" viewBox="0 0 460 420"></svg>
+      <svg class="h-fore r" viewBox="0 0 460 420"></svg>
+      <canvas id="hDust"></canvas>
+      <div class="h-vig"></div>
+    </div>
+    <div class="h-veil"></div>
+    <div class="h-copy">
+      <p class="h-eye"><span data-bind="demoLabel"></span> &nbsp;/&nbsp; <span data-bind="name"></span></p>
+      <div class="h-logo" role="img" aria-label="Specter Developers">
+        <svg class="mark" viewBox="0 0 40 40"><rect x="1" y="1" width="38" height="38" stroke-width="1"/><path d="M28 11H12v9h16v9H12" stroke-width="1.6"/></svg>
+        <div class="h-word" id="hWord" aria-hidden="true"></div>
+        <div class="h-dev" aria-hidden="true"><i></i><span data-dev="rest">Developers</span><i></i></div>
+      </div>
+      <h1 class="h-line" id="hLine"></h1>
+      <p class="h-sub" data-bind="subline"></p>
+      <div class="h-btns">
+        <a class="btn gold" href="#project" data-cur="Explore">Explore the Project</a>
+        <a class="btn" href="#plots" data-cur="Plots">View Plot Layout</a>
+      </div>
+    </div>
+    <div class="h-meta l"><b data-bind="name"></b><span data-bind="location"></span></div>
+    <div class="h-meta r"><b id="hMetaA"></b><span id="hMetaB"></span></div>
+    <div class="h-scroll" aria-hidden="true">Scroll to explore<i></i></div>
+  </div>
+</header>
+
+<!-- ======================= INTRO ======================= -->
+<section class="intro" id="project">
+  <div class="wrap">
+    <p class="label rv rv-fade">Introducing <span data-bind="name"></span></p>
+    <h2 class="mega rv"><span class="ln"><span>More than</span></span><span class="ln"><span><em>a plot.</em></span></span></h2>
+    <div class="intro-grid"><p class="lead rv rv-fade" data-bind="intro"></p></div>
+    <div class="stats" id="stats"></div>
+  </div>
+</section>
+
+<!-- ======================= MASTERPLAN ======================= -->
+<section class="plan" id="plots">
+  <div class="plan-pin">
+    <div class="plan-side">
+      <p class="label">The plot layout</p>
+      <h2 class="h2">Walk the <em>masterplan</em></h2>
+      <p class="lead">Every plot on this plan is live. Pick one to see its size, price, facing and what sits next to it.</p>
+      <ol class="stages" id="stages">
+        <li>Main avenue</li><li>Secondary roads</li><li>Plot boundaries</li><li>Landscaping</li><li>Amenities</li><li>Plot status</li><li>Open for exploring</li>
+      </ol>
+      <div class="plan-now" id="planNow">Drawing the layout</div>
+      <div class="plan-prog"><i id="planProg"></i></div>
+      <ul class="legend" id="legend"></ul>
+      <p class="note">Concept masterplan, not to scale. Plot data is synthetic.</p>
+    </div>
+    <div class="plan-map" id="planMap">
+      <div class="pv" id="pv" data-cur="">
+        <svg class="mp" id="plan" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Interactive concept masterplan"></svg>
+        <div class="pv-tip" id="tip"></div>
+        <div class="pv-hint" id="pvHint">Keep scrolling to draw the masterplan</div>
+        <div class="pv-ui">
+          <button id="zIn" aria-label="Zoom in">+</button>
+          <button id="zOut" aria-label="Zoom out">&minus;</button>
+          <button id="zFit" class="txt" aria-label="Show the whole plan">Fit</button>
+        </div>
+      </div>
+      <aside class="pp" id="pp" aria-live="polite" aria-label="Plot details">
+        <div class="pp-grab" id="ppGrab"></div>
+        <button class="pp-x" id="ppX" aria-label="Close plot details">&times;</button>
+        <div id="ppBody"></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= THE PROJECT ======================= -->
+<section class="proj" id="details">
+  <div class="wrap proj-grid">
+    <figure class="frame rv rv-clip" id="projFrame"></figure>
+    <div>
+      <p class="label rv rv-fade">The project</p>
+      <h2 class="h2 rv"><span class="ln"><span>Planned first.</span></span><span class="ln"><span><em>Built to last.</em></span></span></h2>
+      <dl class="facts" id="facts"></dl>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= LOCATION ======================= -->
+<section class="loc" id="location">
+  <div class="wrap">
+    <p class="label rv rv-fade">Location</p>
+    <h2 class="h2 rv"><span class="ln"><span>Connected</span></span><span class="ln"><span><em>to everything.</em></span></span></h2>
+    <div class="loc-grid">
+      <ul class="conn" id="conn"></ul>
+      <div class="map rv" id="map">
+        <svg viewBox="0 0 1000 700" id="mapSvg" role="img" aria-label="Conceptual connectivity map"></svg>
+        <p class="note map-note">Conceptual map, not to scale. Travel times are placeholders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= AMENITIES ======================= -->
+<section class="amen" id="amenities">
+  <div class="amen-pin">
+    <div class="amen-head">
+      <div><p class="label" style="color:#8a6a38">Amenities</p><h2 class="h2">Everyday, <em>elevated</em></h2></div>
+      <p>A sample amenity programme for the concept. The final list comes from the client's project brief.</p>
+    </div>
+    <div class="amen-track" id="amenTrack"></div>
+    <div class="amen-foot"><div class="amen-bar"><i id="amenBar"></i></div><span class="note" id="amenCount"></span></div>
+  </div>
+</section>
+
+<!-- ======================= STORY ======================= -->
+<section class="story" id="story">
+  <div class="story-head">
+    <p class="label rv rv-fade">How a place gets made</p>
+    <h2 class="h2 rv"><span class="ln"><span>Planned for the way</span></span><span class="ln"><span><em>you want to live.</em></span></span></h2>
+  </div>
+  <div class="story-grid">
+    <div class="stage" id="stage"><svg viewBox="0 0 600 600" id="stageSvg" aria-hidden="true"></svg><div class="stage-w" id="stageW"></div></div>
+    <div class="steps" id="steps"></div>
+  </div>
+</section>
+
+<!-- ======================= GALLERY ======================= -->
+<section class="gal" id="gallery">
+  <div class="wrap">
+    <div class="gal-head">
+      <div><p class="label rv rv-fade">Gallery</p><h2 class="h2 rv"><span class="ln"><span>A first <em>look</em></span></span></h2></div>
+      <p class="note">Generated concept illustrations. Swap in project photography or renders in the data block.</p>
+    </div>
+    <div class="gal-grid" id="galGrid"></div>
+  </div>
+</section>
+
+<!-- ======================= WHY ======================= -->
+<section class="why" id="why">
+  <div class="wrap">
+    <p class="label rv rv-fade">Why this project</p>
+    <h2 class="h2 rv"><span class="ln"><span>Made for the</span></span><span class="ln"><span><em>long view.</em></span></span></h2>
+    <div class="why-list" id="whyList"></div>
+    <p class="note">Concept content for demonstration. Nothing on this page is an offer, a forecast or a promise of returns.</p>
+  </div>
+</section>
+
+<!-- ======================= FIND YOUR PLOT ======================= -->
+<section class="find" id="find">
+  <div class="wrap">
+    <p class="label rv rv-fade">Plot finder</p>
+    <h2 class="h2 rv"><span class="ln"><span>Find <em>your plot</em></span></span></h2>
+    <div class="find-grid">
+      <div id="filters"></div>
+      <div>
+        <div class="res-head"><b id="resCount">0</b><span class="note" id="resNote"></span></div>
+        <div class="res" id="res"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= SPEC SHEET ======================= -->
+<section class="spec" id="spec">
+  <div class="wrap spec-grid">
+    <div>
+      <p class="label rv rv-fade">Project details</p>
+      <h2 class="h2 rv" style="font-size:clamp(36px,4.6vw,76px)"><span class="ln"><span>The full</span></span><span class="ln"><span><em>picture.</em></span></span></h2>
+      <p class="note" style="margin-top:20px;max-width:26em">Every value here is read from the project data block, so updating the data updates this sheet.</p>
+    </div>
+    <dl id="specList"></dl>
+  </div>
+</section>
+
+<!-- ======================= CTA ======================= -->
+<section class="cta" id="contact">
+  <div class="cta-bg" id="ctaBg" data-par=".12"></div>
+  <div class="cta-in">
+    <h2 class="mega rv"><span class="ln"><span>Your space.</span></span><span class="ln"><span><em>Your future.</em></span></span></h2>
+    <p class="lead rv rv-fade">Explore the layout and discover a place designed for what comes next.</p>
+    <div class="cta-btns rv rv-fade">
+      <button class="btn gold" id="ctaPlots">Explore Available Plots</button>
+      <button class="btn" data-enquire="Project details">Request Project Details</button>
+      <button class="btn" data-enquire="Site visit">Schedule a Visit</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand"><span data-bind="developer"></span><small data-bind="developerTagline"></small></div>
+      <nav class="foot-nav" aria-label="Footer">
+        <a href="#project">Project</a><a href="#plots">Plots</a><a href="#amenities">Amenities</a><a href="#location">Location</a><a href="#gallery">Gallery</a><a href="#contact" data-enquire>Contact</a>
+      </nav>
+    </div>
+    <div class="foot-bot note">
+      <span>Demo / concept website. All project names, figures, prices and amenities are synthetic.</span>
+      <span>&copy; <span id="yr"></span> <span data-bind="developer"></span></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ======================= ENQUIRY MODAL ======================= -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal-in">
+    <button class="modal-x" id="modalX" aria-label="Close enquiry form">&times;</button>
+    <div class="modal-l">
+      <svg class="mark" viewBox="0 0 40 40"><rect x="1" y="1" width="38" height="38" stroke-width="1.2"/><path d="M28 11H12v9h16v9H12" stroke-width="1.8"/></svg>
+      <div><h3 id="mTitle">Request project details</h3><p style="margin-top:12px;color:var(--mute);font-size:15px">Tell us what you are looking for and the team will come back with the layout, pricing and visit slots.</p></div>
+      <p class="note" data-bind="name"></p>
+    </div>
+    <div class="modal-r" id="modalR">
+      <form id="enq" novalidate>
+        <div class="f2">
+          <div class="fld"><label for="eName">Name</label><input id="eName" name="name" autocomplete="name" required></div>
+          <div class="fld"><label for="ePhone">Phone</label><input id="ePhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div>
+        </div>
+        <div class="fld"><label for="eMail">Email</label><input id="eMail" name="email" type="email" autocomplete="email"></div>
+        <div class="f2">
+          <div class="fld"><label for="eSize">Preferred plot size</label><select id="eSize" name="size"></select></div>
+          <div class="fld"><label for="eBudget">Budget</label><select id="eBudget" name="budget"></select></div>
+        </div>
+        <div class="fld"><label for="eMsg">Message</label><textarea id="eMsg" name="message" rows="2"></textarea></div>
+        <p class="f-err" id="eErr" role="alert"></p>
+        <button class="btn gold" type="submit">Request Details</button>
+        <p class="f-note" id="eNote"></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= LIGHTBOX ======================= -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Gallery viewer">
+  <div class="lb-stage" id="lbStage"></div>
+  <p class="lb-cap" id="lbCap"></p>
+  <button class="lb-x" id="lbX" aria-label="Close">&times;</button>
+  <button class="lb-p" id="lbP" aria-label="Previous image">&#8249;</button>
+  <button class="lb-n" id="lbN" aria-label="Next image">&#8250;</button>
+</div>
+
+<!-- =====================================================================
+     DATA  —  EDIT THIS BLOCK TO PUT IN THE REAL PROJECT
+     Everything on the page (hero text, numbers, masterplan, plot panel,
+     finder, spec sheet, amenities, map, gallery) is rendered from here.
+     All values below are SYNTHETIC demonstration data.
+     ===================================================================== -->
+<script>
+const projectData = {
+  developer: "Specter Developers",
+  developerTagline: "Creating spaces for what's next.",
+  name: "Aurelia Estates",
+  demoLabel: "Concept Presentation",        // set to "" to hide the demo tags once real data is in
+  headline: "Where Land Becomes Legacy.",
+  subline: "A premium plotted development designed for a future worth building.",
+  intro: "A thoughtfully planned destination designed around space, connectivity and the way modern families want to live.",
+  location: "Near Bengaluru, Karnataka",
+  locationShort: "Near Bengaluru",
+  totalAreaValue: 24,
+  totalAreaUnit: "Acres",
+  developmentType: "Premium Residential Plotted Development",
+  status: "Launching Soon",
+  roadWidths: "30 ft, 40 ft and 60 ft roads",
+  // Leave these null to calculate them from the plots list below, or type a fixed string.
+  totalPlots: null, plotSizes: null, priceRange: null, pricePerSqft: null,
+
+  zones: { A: "Arrival Row", B: "Garden Lanes", C: "Park Residences", D: "The Terraces", E: "Meadow Estates" },
+
+  // Travel times in minutes. x / y place the point on the concept map (1000 x 700 canvas).
+  connectivity: [
+    { name: "Bengaluru",    note: "City centre",        time: 35, x: 170, y: 560 },
+    { name: "Airport",      note: "International",      time: 45, x: 850, y: 120 },
+    { name: "Major IT Hub", note: "Tech corridor",      time: 30, x: 210, y: 200 },
+    { name: "Schools",      note: "Nearest campus",     time: 15, x: 730, y: 500 },
+    { name: "Hospitals",    note: "Multi-speciality",   time: 20, x: 560, y: 130 }
+  ],
+
+  // icon: gate | leaf | club | play | trail | fit | bench | shield | lamp | pipe | tree | court
+  amenities: [
+    { name: "Grand Entrance",       icon: "gate",   desc: "A gated arrival court that sets the tone from the first turn in." },
+    { name: "Landscaped Gardens",   icon: "leaf",   desc: "Planted pockets and lawns woven between the plot rows." },
+    { name: "Clubhouse",            icon: "club",   desc: "A central pavilion for gatherings, set inside the park." },
+    { name: "Children's Play Area", icon: "play",   desc: "A shaded play court within sight of the clubhouse lawn." },
+    { name: "Walking Trails",       icon: "trail",  desc: "A perimeter loop that circles the whole development." },
+    { name: "Outdoor Fitness",      icon: "fit",    desc: "An open-air fitness corner beside the central park." },
+    { name: "Seating Areas",        icon: "bench",  desc: "Quiet benches placed along gardens and trails." },
+    { name: "Security",             icon: "shield", desc: "Controlled entry with a security cabin at the gate." },
+    { name: "Street Lighting",      icon: "lamp",   desc: "Lit avenues and internal roads across every zone." },
+    { name: "Underground Utilities",icon: "pipe",   desc: "Service lines planned below ground for clean streets." },
+    { name: "Green Spaces",         icon: "tree",   desc: "A tree-lined boulevard and green belt on all sides." },
+    { name: "Multipurpose Area",    icon: "court",  desc: "A flexible court for sport, markets and events." }
+  ],
+
+  why: [
+    { title: "Designed for long-term thinking.", text: "A layout planned as one whole, with roads, greens and services decided before the first plot is marked." },
+    { title: "Space to build.",                  text: "Plot sizes from compact to generous, so the home you draw fits the land you choose." },
+    { title: "Planned surroundings.",            text: "A central park, a perimeter trail and pocket gardens are part of the plan, not an afterthought." },
+    { title: "Connected living.",                text: "Placed for everyday reach to the city, work, schools and care." }
+  ],
+
+  story: [
+    { title: "Land",        text: "It starts with open ground, read for its slope, its light and the way water moves across it." },
+    { title: "Planning",    text: "The site is measured and divided. Every plot gets a clear boundary, a frontage and a number." },
+    { title: "Roads",       text: "A central avenue and a loop of internal roads give each plot a proper address." },
+    { title: "Landscaping", text: "Trees line the roads. A park takes the centre. Green edges soften every boundary." },
+    { title: "Community",   text: "Homes rise plot by plot, with a clubhouse and shared spaces holding the neighbourhood together." },
+    { title: "Your home",   text: "One plot, one address, one place to build exactly what you have in mind." }
+  ],
+
+  // scene: aerial | gate | road | grid | grove | villa | sun | club | trail   tone: dusk | dawn | gold | blue
+  // To use a real photo, set image: "assets/your-photo.jpg" (relative path) and it replaces the illustration.
+  gallery: [
+    { title: "The land from above",      scene: "aerial", tone: "dusk", image: "" },
+    { title: "Arrival court",            scene: "gate",   tone: "gold", image: "" },
+    { title: "Tree-lined avenue",        scene: "road",   tone: "dawn", image: "" },
+    { title: "Evening over the park",    scene: "grove",  tone: "gold", image: "" },
+    { title: "A home on your plot",      scene: "villa",  tone: "blue", image: "" },
+    { title: "Clubhouse concept",        scene: "club",   tone: "dusk", image: "" },
+    { title: "Walking trail",            scene: "trail",  tone: "dawn", image: "" },
+    { title: "Sunset on the boundary",   scene: "sun",    tone: "gold", image: "" }
+  ],
+  projectImage: { title: "Arrival court, concept illustration", scene: "gate", tone: "dusk", image: "" },
+
+  // Plot finder bands. Sizes in sq.ft., budgets in lakhs (100 = 1 Cr, null = no upper limit).
+  finder: {
+    sizeBands:   [[1200, 1500], [1800, 2700], [3000, 4000]],
+    budgetBands: [[0, 60], [60, 100], [100, 150], [150, null]]
+  },
+
+  // Enquiry form. This is a static site, so nothing is stored.
+  // Add a WhatsApp number (digits with country code, e.g. "9198XXXXXXXX") or an email address
+  // and the form will open WhatsApp / the mail app with the enquiry filled in.
+  // Leave both empty to keep the demo message.
+  enquiry: { whatsappNumber: "", email: "" }
+};
+
+/* ---------------------------------------------------------------------
+   PLOTS — one line per plot.
+   status: "Available" | "Premium" | "Hold" | "Sold"
+   totalPrice is calculated as size x pricePerSqft unless you add totalPrice: 12345678
+   shape: [x, y, width, height] is the plot's rectangle on the 1600 x 1000 masterplan.
+   --------------------------------------------------------------------- */
+const plots = [
+{ id:"A-01", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:4050, facing:"North-West", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[140,820,30.1,96] },
+  { id:"A-02", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[170.1,820,30.1,96] },
+  { id:"A-03", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[200.2,820,30.1,96] },
+  { id:"A-04", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Hold", nearby:"Walking Trail", shape:[230.3,820,30.1,96] },
+  { id:"A-05", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[260.4,820,30.1,96] },
+  { id:"A-06", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Hold", nearby:"Walking Trail", shape:[290.5,820,30.1,96] },
+  { id:"A-07", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[320.6,820,36.1,96] },
+  { id:"A-08", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[356.7,820,36.1,96] },
+  { id:"A-09", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Visitor Parking", shape:[392.8,820,36.1,96] },
+  { id:"A-10", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Visitor Parking", shape:[428.9,820,36.1,96] },
+  { id:"A-11", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Visitor Parking", shape:[465,820,30.1,96] },
+  { id:"A-12", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Visitor Parking", shape:[495.1,820,30.1,96] },
+  { id:"A-13", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Visitor Parking", shape:[525.2,820,30.1,96] },
+  { id:"A-14", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Visitor Parking", shape:[555.3,820,36.1,96] },
+  { id:"A-15", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Visitor Parking", shape:[591.4,820,36.1,96] },
+  { id:"A-16", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Visitor Parking", shape:[627.5,820,30.5,96] },
+  { id:"A-17", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Arrival Garden", shape:[942,820,29.4,96] },
+  { id:"A-18", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Arrival Garden", shape:[971.4,820,35.3,96] },
+  { id:"A-19", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Arrival Garden", shape:[1006.7,820,29.4,96] },
+  { id:"A-20", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Arrival Garden", shape:[1036.1,820,35.3,96] },
+  { id:"A-21", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Arrival Garden", shape:[1071.4,820,29.4,96] },
+  { id:"A-22", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Arrival Garden", shape:[1100.8,820,29.4,96] },
+  { id:"A-23", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Arrival Garden", shape:[1130.2,820,35.3,96] },
+  { id:"A-24", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Arrival Garden", shape:[1165.5,820,29.4,96] },
+  { id:"A-25", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[1194.9,820,29.4,96] },
+  { id:"A-26", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1224.3,820,35.3,96] },
+  { id:"A-27", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1259.6,820,35.3,96] },
+  { id:"A-28", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1294.9,820,35.3,96] },
+  { id:"A-29", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Hold", nearby:"Walking Trail", shape:[1330.2,820,29.4,96] },
+  { id:"A-30", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[1359.6,820,35.3,96] },
+  { id:"A-31", zone:"A", size:1500, dimensions:"30 × 50 ft", pricePerSqft:3900, facing:"North", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[1394.9,820,35.3,96] },
+  { id:"A-32", zone:"A", size:1200, dimensions:"30 × 40 ft", pricePerSqft:4300, facing:"North-East", roadWidth:"30 ft road", status:"Premium", nearby:"Walking Trail", shape:[1430.2,820,29.8,96] },
+  { id:"B-01", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4500, facing:"North-West", roadWidth:"40 ft road", status:"Premium", nearby:"Central Park", shape:[140,618,37.9,82] },
+  { id:"B-02", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[177.9,618,37.9,82] },
+  { id:"B-03", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"North", roadWidth:"40 ft road", status:"Hold", nearby:"Central Park", shape:[215.8,618,55.3,82] },
+  { id:"B-04", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"North", roadWidth:"40 ft road", status:"Hold", nearby:"Central Park", shape:[271.1,618,55.3,82] },
+  { id:"B-05", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"North", roadWidth:"40 ft road", status:"Sold", nearby:"Central Park", shape:[326.4,618,37.9,82] },
+  { id:"B-06", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[364.3,618,44.2,82] },
+  { id:"B-07", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[408.5,618,44.2,82] },
+  { id:"B-08", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[452.7,618,37.9,82] },
+  { id:"B-09", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[490.6,618,55.3,82] },
+  { id:"B-10", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"North", roadWidth:"40 ft road", status:"Hold", nearby:"Tree-lined Avenue", shape:[545.9,618,55.3,82] },
+  { id:"B-11", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[601.2,618,44.2,82] },
+  { id:"B-12", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"North", roadWidth:"40 ft road", status:"Sold", nearby:"Tree-lined Avenue", shape:[645.4,618,44.2,82] },
+  { id:"B-13", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"North", roadWidth:"40 ft road", status:"Sold", nearby:"Tree-lined Avenue", shape:[689.6,618,37.9,82] },
+  { id:"B-14", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4650, facing:"North-East", roadWidth:"60 ft avenue", status:"Premium", nearby:"Tree-lined Avenue", shape:[727.5,618,44.5,82] },
+  { id:"B-15", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4650, facing:"North-West", roadWidth:"60 ft avenue", status:"Premium", nearby:"Tree-lined Avenue", shape:[828,618,45,82] },
+  { id:"B-16", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[873,618,56.3,82] },
+  { id:"B-17", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[929.3,618,38.6,82] },
+  { id:"B-18", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[967.9,618,45,82] },
+  { id:"B-19", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[1012.9,618,38.6,82] },
+  { id:"B-20", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[1051.5,618,45,82] },
+  { id:"B-21", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"North", roadWidth:"40 ft road", status:"Sold", nearby:"Central Park", shape:[1096.5,618,45,82] },
+  { id:"B-22", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"North", roadWidth:"40 ft road", status:"Sold", nearby:"Central Park", shape:[1141.5,618,56.3,82] },
+  { id:"B-23", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[1197.8,618,38.6,82] },
+  { id:"B-24", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[1236.4,618,45,82] },
+  { id:"B-25", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[1281.4,618,45,82] },
+  { id:"B-26", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[1326.4,618,38.6,82] },
+  { id:"B-27", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"North", roadWidth:"40 ft road", status:"Hold", nearby:"Central Park", shape:[1365,618,56.3,82] },
+  { id:"B-28", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4500, facing:"North-East", roadWidth:"40 ft road", status:"Premium", nearby:"Central Park", shape:[1421.3,618,38.7,82] },
+  { id:"B-29", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4300, facing:"South-West", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[140,700,44.6,82] },
+  { id:"B-30", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"South", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[184.6,700,38.2,82] },
+  { id:"B-31", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[222.8,700,55.7,82] },
+  { id:"B-32", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[278.5,700,44.6,82] },
+  { id:"B-33", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[323.1,700,38.2,82] },
+  { id:"B-34", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[361.3,700,44.6,82] },
+  { id:"B-35", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"South", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[405.9,700,44.6,82] },
+  { id:"B-36", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[450.5,700,44.6,82] },
+  { id:"B-37", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"South", roadWidth:"30 ft road", status:"Sold", nearby:"Tree-lined Avenue", shape:[495.1,700,55.7,82] },
+  { id:"B-38", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[550.8,700,55.7,82] },
+  { id:"B-39", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[606.5,700,38.2,82] },
+  { id:"B-40", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[644.7,700,44.6,82] },
+  { id:"B-41", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[689.3,700,44.6,82] },
+  { id:"B-42", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4600, facing:"South-East", roadWidth:"60 ft avenue", status:"Premium", nearby:"Tree-lined Avenue", shape:[733.9,700,38.1,82] },
+  { id:"B-43", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4700, facing:"South-West", roadWidth:"60 ft avenue", status:"Premium", nearby:"Tree-lined Avenue", shape:[828,700,56.4,82] },
+  { id:"B-44", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[884.4,700,56.4,82] },
+  { id:"B-45", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[940.8,700,38.7,82] },
+  { id:"B-46", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Tree-lined Avenue", shape:[979.5,700,45.1,82] },
+  { id:"B-47", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"South", roadWidth:"30 ft road", status:"Hold", nearby:"Tree-lined Avenue", shape:[1024.6,700,38.7,82] },
+  { id:"B-48", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"South", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[1063.3,700,45.1,82] },
+  { id:"B-49", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"South", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[1108.4,700,56.4,82] },
+  { id:"B-50", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"South", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[1164.8,700,38.7,82] },
+  { id:"B-51", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1203.5,700,38.7,82] },
+  { id:"B-52", zone:"B", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4150, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1242.2,700,45.1,82] },
+  { id:"B-53", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"South", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[1287.3,700,38.7,82] },
+  { id:"B-54", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4100, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1326,700,38.7,82] },
+  { id:"B-55", zone:"B", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4200, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1364.7,700,56.4,82] },
+  { id:"B-56", zone:"B", size:1500, dimensions:"30 × 50 ft", pricePerSqft:4250, facing:"South-East", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1421.1,700,38.9,82] },
+  { id:"C-01", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4650, facing:"North-West", roadWidth:"40 ft road", status:"Hold", nearby:"Central Park", shape:[140,418,50.9,82] },
+  { id:"C-02", zone:"C", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4450, facing:"North", roadWidth:"40 ft road", status:"Hold", nearby:"Central Park", shape:[190.9,418,40.7,82] },
+  { id:"C-03", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"North", roadWidth:"40 ft road", status:"Sold", nearby:"Central Park", shape:[231.6,418,50.9,82] },
+  { id:"C-04", zone:"C", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4550, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[282.5,418,61.1,82] },
+  { id:"C-05", zone:"C", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4550, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[343.6,418,61.1,82] },
+  { id:"C-06", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Children's Play Area", shape:[404.7,418,50.9,82] },
+  { id:"C-07", zone:"C", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4450, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Children's Play Area", shape:[455.6,418,40.7,82] },
+  { id:"C-08", zone:"C", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4450, facing:"North", roadWidth:"40 ft road", status:"Hold", nearby:"Children's Play Area", shape:[496.3,418,40.7,82] },
+  { id:"C-09", zone:"C", size:3000, dimensions:"50 × 60 ft", pricePerSqft:5000, facing:"North", roadWidth:"40 ft road", status:"Premium", nearby:"Children's Play Area", shape:[537,418,61,82] },
+  { id:"C-10", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4950, facing:"North", roadWidth:"40 ft road", status:"Premium", nearby:"Outdoor Fitness", shape:[1002,418,48.7,82] },
+  { id:"C-11", zone:"C", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4450, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Outdoor Fitness", shape:[1050.7,418,39,82] },
+  { id:"C-12", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Outdoor Fitness", shape:[1089.7,418,48.7,82] },
+  { id:"C-13", zone:"C", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4550, facing:"North", roadWidth:"40 ft road", status:"Sold", nearby:"Outdoor Fitness", shape:[1138.4,418,58.5,82] },
+  { id:"C-14", zone:"C", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4550, facing:"North", roadWidth:"40 ft road", status:"Hold", nearby:"Central Park", shape:[1196.9,418,58.5,82] },
+  { id:"C-15", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"North", roadWidth:"40 ft road", status:"Sold", nearby:"Central Park", shape:[1255.4,418,48.7,82] },
+  { id:"C-16", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[1304.1,418,48.7,82] },
+  { id:"C-17", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"North", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[1352.8,418,48.7,82] },
+  { id:"C-18", zone:"C", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4700, facing:"North-East", roadWidth:"40 ft road", status:"Hold", nearby:"Central Park", shape:[1401.5,418,58.5,82] },
+  { id:"C-19", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4900, facing:"South-West", roadWidth:"40 ft road", status:"Premium", nearby:"Central Park", shape:[140,500,49.8,82] },
+  { id:"C-20", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[189.8,500,49.8,82] },
+  { id:"C-21", zone:"C", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4450, facing:"South", roadWidth:"40 ft road", status:"Hold", nearby:"Central Park", shape:[239.6,500,39.8,82] },
+  { id:"C-22", zone:"C", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4550, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[279.4,500,59.7,82] },
+  { id:"C-23", zone:"C", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4550, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[339.1,500,59.7,82] },
+  { id:"C-24", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Children's Play Area", shape:[398.8,500,49.8,82] },
+  { id:"C-25", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Children's Play Area", shape:[448.6,500,49.8,82] },
+  { id:"C-26", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Children's Play Area", shape:[498.4,500,49.8,82] },
+  { id:"C-27", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4950, facing:"South", roadWidth:"40 ft road", status:"Premium", nearby:"Children's Play Area", shape:[548.2,500,49.8,82] },
+  { id:"C-28", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4950, facing:"South", roadWidth:"40 ft road", status:"Premium", nearby:"Outdoor Fitness", shape:[1002,500,50.9,82] },
+  { id:"C-29", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Outdoor Fitness", shape:[1052.9,500,50.9,82] },
+  { id:"C-30", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Outdoor Fitness", shape:[1103.8,500,50.9,82] },
+  { id:"C-31", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Outdoor Fitness", shape:[1154.7,500,50.9,82] },
+  { id:"C-32", zone:"C", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4550, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[1205.6,500,61.1,82] },
+  { id:"C-33", zone:"C", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4450, facing:"South", roadWidth:"40 ft road", status:"Sold", nearby:"Central Park", shape:[1266.7,500,40.7,82] },
+  { id:"C-34", zone:"C", size:1800, dimensions:"30 × 60 ft", pricePerSqft:4450, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[1307.4,500,40.7,82] },
+  { id:"C-35", zone:"C", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Central Park", shape:[1348.1,500,50.9,82] },
+  { id:"C-36", zone:"C", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4950, facing:"South-East", roadWidth:"40 ft road", status:"Premium", nearby:"Central Park", shape:[1399,500,61,82] },
+  { id:"D-01", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4550, facing:"North-West", roadWidth:"30 ft road", status:"Hold", nearby:"Walking Trail", shape:[140,218,63,82] },
+  { id:"D-02", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[203,218,63,82] },
+  { id:"D-03", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4350, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[266,218,52.5,82] },
+  { id:"D-04", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[318.5,218,63,82] },
+  { id:"D-05", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[381.5,218,63,82] },
+  { id:"D-06", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4350, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[444.5,218,52.5,82] },
+  { id:"D-07", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4350, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Clubhouse", shape:[497,218,52.5,82] },
+  { id:"D-08", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4350, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Clubhouse", shape:[549.5,218,52.5,82] },
+  { id:"D-09", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Clubhouse", shape:[602,218,63,82] },
+  { id:"D-10", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Clubhouse", shape:[665,218,63,82] },
+  { id:"D-11", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4750, facing:"North-East", roadWidth:"30 ft road", status:"Premium", nearby:"Clubhouse", shape:[728,218,52,82] },
+  { id:"D-12", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4550, facing:"North-West", roadWidth:"30 ft road", status:"Sold", nearby:"Clubhouse", shape:[820,218,60,82] },
+  { id:"D-13", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Clubhouse", shape:[880,218,60,82] },
+  { id:"D-14", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4350, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Clubhouse", shape:[940,218,50,82] },
+  { id:"D-15", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4350, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Clubhouse", shape:[990,218,50,82] },
+  { id:"D-16", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Clubhouse", shape:[1040,218,60,82] },
+  { id:"D-17", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1100,218,60,82] },
+  { id:"D-18", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1160,218,60,82] },
+  { id:"D-19", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1220,218,60,82] },
+  { id:"D-20", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1280,218,60,82] },
+  { id:"D-21", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"North", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1340,218,60,82] },
+  { id:"D-22", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4550, facing:"North-East", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1400,218,60,82] },
+  { id:"D-23", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4800, facing:"South-West", roadWidth:"40 ft road", status:"Premium", nearby:"Walking Trail", shape:[140,300,60,82] },
+  { id:"D-24", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Walking Trail", shape:[200,300,60,82] },
+  { id:"D-25", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Walking Trail", shape:[260,300,60,82] },
+  { id:"D-26", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Walking Trail", shape:[320,300,60,82] },
+  { id:"D-27", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Walking Trail", shape:[380,300,60,82] },
+  { id:"D-28", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Walking Trail", shape:[440,300,60,82] },
+  { id:"D-29", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Clubhouse", shape:[500,300,60,82] },
+  { id:"D-30", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4350, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Clubhouse", shape:[560,300,50,82] },
+  { id:"D-31", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4350, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Clubhouse", shape:[610,300,50,82] },
+  { id:"D-32", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Clubhouse", shape:[660,300,60,82] },
+  { id:"D-33", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4550, facing:"South-East", roadWidth:"40 ft road", status:"Hold", nearby:"Clubhouse", shape:[720,300,60,82] },
+  { id:"D-34", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"South-West", roadWidth:"40 ft road", status:"Sold", nearby:"Clubhouse", shape:[820,300,52.5,82] },
+  { id:"D-35", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Clubhouse", shape:[872.5,300,63,82] },
+  { id:"D-36", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Hold", nearby:"Clubhouse", shape:[935.5,300,63,82] },
+  { id:"D-37", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Clubhouse", shape:[998.5,300,63,82] },
+  { id:"D-38", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4350, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Clubhouse", shape:[1061.5,300,52.5,82] },
+  { id:"D-39", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4350, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Walking Trail", shape:[1114,300,52.5,82] },
+  { id:"D-40", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Walking Trail", shape:[1166.5,300,63,82] },
+  { id:"D-41", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4350, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Walking Trail", shape:[1229.5,300,52.5,82] },
+  { id:"D-42", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Walking Trail", shape:[1282,300,63,82] },
+  { id:"D-43", zone:"D", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4400, facing:"South", roadWidth:"40 ft road", status:"Available", nearby:"Walking Trail", shape:[1345,300,63,82] },
+  { id:"D-44", zone:"D", size:2400, dimensions:"40 × 60 ft", pricePerSqft:4500, facing:"South-East", roadWidth:"40 ft road", status:"Sold", nearby:"Walking Trail", shape:[1408,300,52,82] },
+  { id:"E-01", zone:"E", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4900, facing:"South-West", roadWidth:"30 ft road", status:"Sold", nearby:"Walking Trail", shape:[140,84,59.2,98] },
+  { id:"E-02", zone:"E", size:3000, dimensions:"50 × 60 ft", pricePerSqft:5000, facing:"South", roadWidth:"30 ft road", status:"Premium", nearby:"Walking Trail", shape:[199.2,84,59.2,98] },
+  { id:"E-03", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:4850, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[258.4,84,73.4,98] },
+  { id:"E-04", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:4850, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[331.8,84,73.4,98] },
+  { id:"E-05", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:4850, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[405.2,84,73.4,98] },
+  { id:"E-06", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:4850, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[478.6,84,73.4,98] },
+  { id:"E-07", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:4850, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Meadow Walk", shape:[552,84,73.4,98] },
+  { id:"E-08", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:5100, facing:"South", roadWidth:"30 ft road", status:"Premium", nearby:"Meadow Walk", shape:[625.4,84,73.4,98] },
+  { id:"E-09", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:5300, facing:"South", roadWidth:"30 ft road", status:"Premium", nearby:"Meadow Walk", shape:[698.8,84,73.2,98] },
+  { id:"E-10", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:5050, facing:"South", roadWidth:"30 ft road", status:"Sold", nearby:"Meadow Walk", shape:[828,84,75,98] },
+  { id:"E-11", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:4850, facing:"South", roadWidth:"30 ft road", status:"Hold", nearby:"Meadow Walk", shape:[903,84,75,98] },
+  { id:"E-12", zone:"E", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4750, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Meadow Walk", shape:[978,84,60.6,98] },
+  { id:"E-13", zone:"E", size:3000, dimensions:"50 × 60 ft", pricePerSqft:4750, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Meadow Walk", shape:[1038.6,84,60.6,98] },
+  { id:"E-14", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:5100, facing:"South", roadWidth:"30 ft road", status:"Premium", nearby:"Walking Trail", shape:[1099.2,84,75,98] },
+  { id:"E-15", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:4850, facing:"South", roadWidth:"30 ft road", status:"Available", nearby:"Walking Trail", shape:[1174.2,84,75,98] },
+  { id:"E-16", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:5100, facing:"South", roadWidth:"30 ft road", status:"Premium", nearby:"Walking Trail", shape:[1249.2,84,75,98] },
+  { id:"E-17", zone:"E", size:4000, dimensions:"50 × 80 ft", pricePerSqft:5100, facing:"South", roadWidth:"30 ft road", status:"Premium", nearby:"Walking Trail", shape:[1324.2,84,75,98] },
+  { id:"E-18", zone:"E", size:3000, dimensions:"50 × 60 ft", pricePerSqft:5150, facing:"South-East", roadWidth:"30 ft road", status:"Premium", nearby:"Walking Trail", shape:[1399.2,84,60.8,98] }
+];
+</script>
+
+<!-- =====================================================================
+     ENGINE  —  rendering, masterplan, animation. No data lives below.
+     ===================================================================== -->
+<script>
+(() => {
+'use strict';
+const P = projectData;
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const seg = (p, a, b) => clamp((p - a) / (b - a), 0, 1);
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE = matchMedia('(hover:hover) and (pointer:fine)').matches;
+const isDesk = () => innerWidth >= 900;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const rng = a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+const fmtN = n => Number(n).toLocaleString('en-IN');
+const fmtP = (n, long) => n >= 1e7 ? `₹${(n / 1e7).toFixed(2)} Cr` : `₹${(n / 1e5).toFixed(1)} ${long ? 'Lakhs' : 'L'}`;
+const fmtBand = v => v >= 100 ? `₹${+(v / 100).toFixed(2)} Cr` : `₹${v} L`;
+const ST = { Available: 'av', Premium: 'pr', Hold: 'ho', Sold: 'so' };
+if (FINE) document.documentElement.classList.add('fine');
+
+/* ---------- derived values ---------- */
+plots.forEach(p => { if (p.totalPrice == null) p.totalPrice = p.size * p.pricePerSqft; });
+const N = plots.length;
+const mm = k => [Math.min(...plots.map(p => p[k])), Math.max(...plots.map(p => p[k]))];
+const [minS, maxS] = mm('size'), [minT, maxT] = mm('totalPrice'), [minR, maxR] = mm('pricePerSqft');
+P.totalArea = `${P.totalAreaValue} ${P.totalAreaUnit}`;
+P.totalPlots = P.totalPlots || N;
+P.plotSizes = P.plotSizes || `${fmtN(minS)}–${fmtN(maxS)} sq.ft.`;
+P.priceRange = P.priceRange || `${fmtP(minT)} – ${fmtP(maxT)}`;
+P.pricePerSqft = P.pricePerSqft || `₹${fmtN(minR)} – ₹${fmtN(maxR)} / sq.ft.`;
+const count = s => plots.filter(p => p.status === s).length;
+
+/* ---------- simple text binding ---------- */
+$$('[data-bind]').forEach(e => { e.textContent = P[e.dataset.bind] || ''; });
+$$('.tag').forEach(e => { if (!P.demoLabel) e.remove(); });
+const devParts = P.developer.split(' ');
+$$('[data-dev="first"]').forEach(e => e.textContent = devParts[0]);
+$$('[data-dev="rest"]').forEach(e => e.textContent = devParts.slice(1).join(' '));
+$('#hWord').innerHTML = [...devParts[0]].map((c, i) => `<span style="--i:${i}"><b>${esc(c)}</b></span>`).join('');
+$('#hLine').innerHTML = P.headline.split(' ').map((w, i) => `<span style="--i:${i}"><b style="--i:${i}">${esc(w)}</b></span>`).join(' ');
+$('#hMetaA').textContent = `${P.totalArea} / ${P.totalPlots} plots`;
+$('#hMetaB').textContent = `From ${fmtP(minT, true)}`;
+$('#yr').textContent = new Date().getFullYear();
+document.title = `${P.name} by ${P.developer}${P.demoLabel ? ' | ' + P.demoLabel : ''}`;
+
+/* ============================================================
+   GENERATED ILLUSTRATIONS (stand-ins until real photography arrives)
+   ============================================================ */
+const TONES = {
+  dusk: { sky: ['#0e1114', '#2a2623', '#7a4f33', '#d99a5b', '#f1cf98'], sun: '#ffe2ad', hill: ['#5d4737', '#3a2d24', '#211a15'], ground: ['#1b1611', '#0c0a08'], glow: '233,170,100' },
+  dawn: { sky: ['#101619', '#27343a', '#6f7f78', '#c9bf9c', '#f0e3c2'], sun: '#fff3d6', hill: ['#5c6a60', '#35443c', '#1c2620'], ground: ['#172019', '#0a0d0b'], glow: '240,225,180' },
+  gold: { sky: ['#1c130c', '#5b3a20', '#b87a3d', '#e9b56c', '#fbe6b8'], sun: '#fff0c9', hill: ['#7a5433', '#4a3220', '#261a11'], ground: ['#20160e', '#0c0907'], glow: '250,200,120' },
+  blue: { sky: ['#07090c', '#121a22', '#2a3a44', '#6f7566', '#c9a973'], sun: '#f6d9a0', hill: ['#2c3a40', '#1b2529', '#0f1517'], ground: ['#0f1416', '#070909'], glow: '220,180,120' }
+};
+const hillPath = (W, base, y, amp, seed, f) => {
+  let d = `M0 ${base}L0 ${y}`;
+  for (let x = 0; x <= W; x += 40) {
+    const n = Math.sin(x * f + seed) * .6 + Math.sin(x * f * 2.3 + seed * 1.7) * .3 + Math.sin(x * f * 5.1 + seed * .3) * .1;
+    d += `L${x} ${(y - n * amp).toFixed(1)}`;
+  }
+  return d + `L${W} ${base}Z`;
+};
+const treeS = (x, y, h, c) => {
+  const r = h * .34;
+  return `<g fill="${c}"><rect x="${(x - h * .03).toFixed(1)}" y="${(y - h * .5).toFixed(1)}" width="${(h * .06).toFixed(1)}" height="${(h * .5).toFixed(1)}"/><circle cx="${x.toFixed(1)}" cy="${(y - h * .64).toFixed(1)}" r="${r.toFixed(1)}"/><circle cx="${(x - r * .62).toFixed(1)}" cy="${(y - h * .5).toFixed(1)}" r="${(r * .7).toFixed(1)}"/><circle cx="${(x + r * .62).toFixed(1)}" cy="${(y - h * .48).toFixed(1)}" r="${(r * .72).toFixed(1)}"/></g>`;
+};
+let sid = 0;
+function scene(kind, tone) {
+  const T = TONES[tone] || TONES.dusk, id = 'sc' + (++sid), W = 1600, H = 1000, R = rng(sid * 97 + 3);
+  const hz = kind === 'aerial' || kind === 'grid' ? 340 : kind === 'sun' ? 620 : 560;
+  const sx = ({ road: 800, gate: 800, villa: 300, club: 1240, aerial: 1080, grid: 520, grove: 1010, sun: 800, trail: 380 })[kind] || 800;
+  const K = '#0c0a08', G = '#e7c078';
+  let s = `<svg class="scn" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Concept illustration"><defs>
+<linearGradient id="${id}a" x1="0" y1="0" x2="0" y2="1">${T.sky.map((c, i) => `<stop offset="${[0, .35, .7, .9, 1][i]}" stop-color="${c}"/>`).join('')}</linearGradient>
+<radialGradient id="${id}b"><stop offset="0" stop-color="rgb(${T.glow})" stop-opacity=".95"/><stop offset=".25" stop-color="rgb(${T.glow})" stop-opacity=".4"/><stop offset="1" stop-color="rgb(${T.glow})" stop-opacity="0"/></radialGradient>
+<linearGradient id="${id}c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${T.ground[0]}"/><stop offset="1" stop-color="${T.ground[1]}"/></linearGradient>
+<linearGradient id="${id}d" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgb(${T.glow})" stop-opacity="0"/><stop offset=".5" stop-color="rgb(${T.glow})" stop-opacity=".3"/><stop offset="1" stop-color="rgb(${T.glow})" stop-opacity="0"/></linearGradient></defs>
+<rect width="${W}" height="${hz + 6}" fill="url(#${id}a)"/><circle cx="${sx}" cy="${hz - 30}" r="460" fill="url(#${id}b)"/><circle cx="${sx}" cy="${hz - (kind === 'sun' ? 70 : 40)}" r="${kind === 'sun' ? 96 : 44}" fill="${T.sun}"/>`;
+  for (let i = 0; i < 7; i++) s += `<ellipse cx="${(R() * W).toFixed(0)}" cy="${(60 + R() * (hz - 240)).toFixed(0)}" rx="${(150 + R() * 280).toFixed(0)}" ry="${(6 + R() * 13).toFixed(0)}" fill="rgb(${T.glow})" opacity="${(.07 + R() * .14).toFixed(2)}"/>`;
+  s += `<path d="${hillPath(W, hz + 6, hz - 62, 70, sid * 1.3, .0035)}" fill="${T.hill[0]}"/><path d="${hillPath(W, hz + 6, hz - 30, 44, sid * 2.1 + 4, .006)}" fill="${T.hill[1]}"/><path d="${hillPath(W, hz + 6, hz - 8, 24, sid * 3.3 + 9, .009)}" fill="${T.hill[2]}"/>`;
+  s += `<rect y="${hz}" width="${W}" height="${H - hz}" fill="url(#${id}c)"/>`;
+  const gy = (H - hz);
+  if (kind === 'road') {
+    s += `<path d="M792 ${hz}L808 ${hz}L1250 1000L350 1000Z" fill="#13110e"/><path d="M800 ${hz + 6}V1000" stroke="rgba(231,192,120,.55)" stroke-width="3" stroke-dasharray="3 12 7 20 16 34 30 54 50 90"/>`;
+    for (let i = 0; i < 8; i++) {
+      const q = Math.pow((i + 1) / 8, 2), y = hz + gy * q * .92, off = 26 + 480 * q, h = 46 + 430 * q, c = i < 4 ? T.hill[2] : K;
+      s += treeS(800 - off - h * .25, y, h, c) + treeS(800 + off + h * .25, y, h, c);
+      if (i % 2) for (const d of [-1, 1]) { const lx = 800 + d * (off * .93); s += `<rect x="${(lx - h * .006).toFixed(1)}" y="${(y - h * .6).toFixed(1)}" width="${(h * .012).toFixed(1)}" height="${(h * .6).toFixed(1)}" fill="${K}"/><circle cx="${lx.toFixed(1)}" cy="${(y - h * .6).toFixed(1)}" r="${(h * .022).toFixed(1)}" fill="#ffe7b8"/><circle cx="${lx.toFixed(1)}" cy="${(y - h * .6).toFixed(1)}" r="${(h * .09).toFixed(1)}" fill="rgb(${T.glow})" opacity=".25"/>`; }
+    }
+  } else if (kind === 'gate') {
+    for (let i = 0; i < 6; i++) { const h = 210 + R() * 150; s += treeS(120 + i * 70 + R() * 30, hz + 12, h, T.hill[2]) + treeS(1100 + i * 72 + R() * 30, hz + 12, h, T.hill[2]); }
+    s += `<path d="M690 ${hz + 30}L910 ${hz + 30}L1340 1000L260 1000Z" fill="#13110e"/><path d="M800 ${hz + 40}V1000" stroke="rgba(231,192,120,.45)" stroke-width="3" stroke-dasharray="10 26 24 46 44 80"/>
+<rect x="70" y="${hz - 64}" width="490" height="116" fill="#100e0b"/><rect x="1040" y="${hz - 64}" width="490" height="116" fill="#100e0b"/>
+<rect x="70" y="${hz - 64}" width="490" height="4" fill="${G}" opacity=".75"/><rect x="1040" y="${hz - 64}" width="490" height="4" fill="${G}" opacity=".75"/>
+<rect x="538" y="${hz - 300}" width="82" height="352" fill="#0b0907"/><rect x="980" y="${hz - 300}" width="82" height="352" fill="#0b0907"/>
+<rect x="496" y="${hz - 330}" width="608" height="26" fill="#0b0907"/><rect x="496" y="${hz - 306}" width="608" height="3" fill="${G}" opacity=".8"/>
+<rect x="576" y="${hz - 262}" width="5" height="280" fill="${G}"/><rect x="1019" y="${hz - 262}" width="5" height="280" fill="${G}"/>
+<text x="315" y="${hz + 10}" text-anchor="middle" font-family="Bodoni Moda,Didot,Georgia,serif" font-size="34" letter-spacing="9" fill="${G}">${esc(P.name.toUpperCase())}</text>
+<ellipse cx="800" cy="${hz + 60}" rx="330" ry="30" fill="rgb(${T.glow})" opacity=".12"/>`;
+  } else if (kind === 'villa') {
+    for (let i = 0; i < 4; i++) s += treeS(1300 + i * 90, hz + 8, 240 + R() * 140, T.hill[2]);
+    s += treeS(250, hz + 20, 430, K) + `<rect x="430" y="${hz + 6}" width="900" height="150" fill="rgb(${T.glow})" opacity=".13"/>
+<rect x="470" y="${hz - 128}" width="560" height="134" fill="#0d0b09"/><rect x="496" y="${hz - 112}" width="330" height="104" fill="${G}" opacity=".85"/><rect x="850" y="${hz - 112}" width="150" height="104" fill="${G}" opacity=".5"/>
+<path d="M606 ${hz - 112}v104M716 ${hz - 112}v104M925 ${hz - 112}v104" stroke="#0d0b09" stroke-width="5"/>
+<rect x="410" y="${hz - 156}" width="680" height="28" fill="#0a0806"/>
+<rect x="900" y="${hz - 262}" width="340" height="106" fill="#0d0b09"/><rect x="926" y="${hz - 244}" width="230" height="74" fill="${G}" opacity=".7"/><path d="M1040 ${hz - 244}v74" stroke="#0d0b09" stroke-width="5"/>
+<rect x="860" y="${hz - 286}" width="430" height="24" fill="#0a0806"/><rect x="380" y="${hz - 6}" width="960" height="16" fill="#0a0806"/>` + treeS(1420, hz + 60, 560, K);
+  } else if (kind === 'club') {
+    for (let i = 0; i < 7; i++) s += treeS(60 + i * 230 + R() * 60, hz + 6, 230 + R() * 160, T.hill[2]);
+    const b = `<rect x="300" y="${hz - 196}" width="1000" height="20" fill="#0a0806"/><rect x="420" y="${hz - 176}" width="760" height="170" fill="${G}" opacity=".62"/>${Array.from({ length: 11 }, (_, i) => `<rect x="${330 + i * 94}" y="${hz - 176}" width="7" height="176" fill="#0a0806"/>`).join('')}<rect x="270" y="${hz - 6}" width="1060" height="12" fill="#0a0806"/>`;
+    s += b + `<rect y="${hz + 6}" width="${W}" height="260" fill="#0a0d0f" opacity=".75"/><g transform="translate(0 ${2 * hz + 12}) scale(1 -1)" opacity=".28">${b}</g>`;
+    for (let i = 0; i < 9; i++) s += `<rect x="${(R() * W).toFixed(0)}" y="${(hz + 30 + R() * 220).toFixed(0)}" width="${(60 + R() * 200).toFixed(0)}" height="1.5" fill="rgb(${T.glow})" opacity=".35"/>`;
+  } else if (kind === 'aerial' || kind === 'grid') {
+    const vx = 800, px = (i, q) => vx + i * lerp(9, 200, q), yy = k => hz + 8 + (H - hz - 8) * Math.pow(k / 10, 1.9), qq = k => Math.pow(k / 10, 1.9);
+    s += `<path d="M${px(-10, 0)} ${yy(0)}L${px(10, 0)} ${yy(0)}L${px(10, 1)} ${H}L${px(-10, 1)} ${H}Z" fill="#17130e"/>`;
+    for (let k = 0; k < 10; k++) for (let i = -9; i < 9; i++) {
+      if (k % 3 === 2 || i === -1 || i === 0) continue;
+      const r = R(), q0 = qq(k), q1 = qq(k + 1);
+      const f = r > .86 ? `rgba(231,192,120,.55)` : r > .6 ? `rgba(203,189,159,.2)` : r > .5 ? 'rgba(95,110,82,.5)' : 'rgba(203,189,159,.07)';
+      s += `<path d="M${px(i, q0).toFixed(1)} ${yy(k).toFixed(1)}L${px(i + 1, q0).toFixed(1)} ${yy(k).toFixed(1)}L${px(i + 1, q1).toFixed(1)} ${yy(k + 1).toFixed(1)}L${px(i, q1).toFixed(1)} ${yy(k + 1).toFixed(1)}Z" fill="${f}" stroke="rgba(231,192,120,.4)" stroke-width="1"/>`;
+    }
+    s += `<path d="M${vx} ${yy(0)}V${H}" stroke="rgba(255,220,160,.8)" stroke-width="2" stroke-dasharray="2 6 4 10 8 18 14 30 24 50 40 80"/>`;
+    for (let k = 1; k < 10; k++) for (const d of [-1, 1]) { const q = qq(k); s += `<circle cx="${px(d * .9, q).toFixed(1)}" cy="${yy(k).toFixed(1)}" r="${(1.5 + q * 7).toFixed(1)}" fill="#ffe7b8"/><circle cx="${px(d * .9, q).toFixed(1)}" cy="${yy(k).toFixed(1)}" r="${(6 + q * 30).toFixed(1)}" fill="rgb(${T.glow})" opacity=".2"/>`; }
+  } else if (kind === 'grove') {
+    for (let i = 0; i < 7; i++) s += `<path d="M${sx} ${hz - 60}L${(sx - 900 + i * 300)} 1000L${(sx - 780 + i * 300)} 1000Z" fill="rgb(${T.glow})" opacity=".07"/>`;
+    for (let r = 0; r < 3; r++) for (let i = 0; i < 9 - r * 2; i++) { const h = 200 + r * 190 + R() * 90; s += treeS(-40 + i * (190 + r * 70) + R() * 80, hz + 20 + r * 130, h, [T.hill[1], T.hill[2], K][r]); }
+    s += `<path d="M640 1000C700 860 900 800 1000 ${hz + 20}L1020 ${hz + 20}C960 800 900 880 960 1000Z" fill="rgb(${T.glow})" opacity=".16"/>`;
+  } else if (kind === 'sun') {
+    for (let i = 0; i < 6; i++) s += `<rect x="${(R() * 1100).toFixed(0)}" y="${(hz - 300 + i * 44).toFixed(0)}" width="${(300 + R() * 500).toFixed(0)}" height="${(5 + R() * 9).toFixed(0)}" rx="5" fill="${T.hill[1]}" opacity=".55"/>`;
+    s += `<path d="${hillPath(W, H, hz + 70, 40, 12, .005)}" fill="${T.hill[2]}"/><path d="${hillPath(W, H, hz + 170, 30, 30, .008)}" fill="${K}"/>`;
+    for (let i = 0; i < 9; i++) s += treeS(60 + i * 190 + R() * 90, hz + 190 + R() * 30, 90 + R() * 80, K);
+    s += `<path d="M520 300q12-12 24 0q12-12 24 0M610 250q9-9 18 0q9-9 18 0M470 240q8-8 16 0q8-8 16 0" fill="none" stroke="${K}" stroke-width="3"/>`;
+  } else if (kind === 'trail') {
+    for (let i = 0; i < 6; i++) s += treeS(700 + i * 170 + R() * 60, hz + 14, 230 + R() * 170, T.hill[2]);
+    s += `<path d="M560 1000C640 860 980 830 900 720C850 650 800 620 812 ${hz + 8}L822 ${hz + 8}C830 620 910 650 980 720C1100 840 800 880 880 1000Z" fill="#b6a37c" opacity=".55"/>`;
+    for (const [x, y, h] of [[1010, 730, 190], [760, 640, 110], [1090, 900, 330]]) s += `<rect x="${x}" y="${y - h}" width="${h * .02}" height="${h}" fill="${K}"/><circle cx="${x + h * .01}" cy="${y - h}" r="${h * .045}" fill="#ffe7b8"/><circle cx="${x + h * .01}" cy="${y - h}" r="${h * .2}" fill="rgb(${T.glow})" opacity=".22"/>`;
+    s += `<rect x="1150" y="770" width="170" height="10" fill="${K}"/><rect x="1150" y="738" width="170" height="8" fill="${K}"/><path d="M1166 746v64M1304 746v64" stroke="${K}" stroke-width="9"/>` + treeS(170, 1010, 760, K);
+  }
+  return s + `<rect y="${hz - 90}" width="${W}" height="210" fill="url(#${id}d)"/></svg>`;
+}
+const visual = g => g.image ? `<img src="${esc(g.image)}" alt="${esc(g.title)}" loading="lazy" decoding="async">` : scene(g.scene, g.tone);
+
+/* ============================================================
+   MASTERPLAN DRAWING (shared by the hero backdrop and the interactive plan)
+   ============================================================ */
+function buildPlan(svg, lite) {
+  const R = rng(11), u = lite ? 'h' : 'm';
+  const T = (x, y, r) => `<circle class="tree" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}"/>`;
+  const gr = (x, y, w, h, rx = 6) => `<rect class="grn" x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}"/>`;
+  let h = `<defs><pattern id="hat${u}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#2a2520"/><line x1="0" y1="0" x2="0" y2="6" stroke="#4a4238" stroke-width="2.4"/></pattern>
+<pattern id="grd${u}" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="rgba(216,185,126,.08)" stroke-width="1"/></pattern></defs>`;
+  h += `<g class="dim"><g class="pl-base"><rect class="site" x="56" y="56" width="1488" height="888" rx="16"/><rect x="56" y="56" width="1488" height="888" rx="16" fill="url(#grd${u})"/></g>`;
+  // landscape
+  let g = gr(62, 62, 72, 876, 12) + gr(1466, 62, 72, 876, 12) + gr(62, 62, 1476, 16, 8) + gr(62, 922, 1476, 16, 8) + gr(778, 80, 44, 106, 4) + gr(604, 418, 392, 164, 14) + gr(830, 826, 106, 88, 10);
+  g += `<rect class="trail" x="74" y="69" width="1452" height="862" rx="14"/><ellipse class="lawn" cx="800" cy="540" rx="72" ry="26"/><path class="pth" d="M604 500H728M872 500H996M800 486V514M800 566V582M800 84V182"/>`;
+  for (let i = 0; i < 17; i++) { g += T(86 + R() * 14, 86 + i * 50 + R() * 16, 5 + R() * 4) + T(1500 + R() * 14, 86 + i * 50 + R() * 16, 5 + R() * 4); }
+  for (let i = 0; i < 26; i++) { const x = 616 + R() * 368, y = 428 + R() * 144; if ((x > 738 && x < 862 && y > 430 && y < 494) || (Math.abs(x - 800) < 78 && Math.abs(y - 540) < 30) || Math.hypot(x - 662, y - 462) < 32 || Math.hypot(x - 938, y - 462) < 32 || (x > 626 && x < 700 && y > 514) || (x > 900 && x < 974 && y > 516)) continue; g += T(x, y, 5 + R() * 5); }
+  for (let i = 0; i < 6; i++) g += T(842 + R() * 82, 838 + R() * 64, 5 + R() * 4);
+  for (let i = 0; i < 4; i++) g += T(790 + (i % 2) * 20, 96 + i * 24, 5);
+  h += `<g class="pl-green">${g}</g>`;
+  // roads
+  const loop = 'M136 200H1464A16 16 0 0 1 1480 216V784A16 16 0 0 1 1464 800H136A16 16 0 0 1 120 784V216A16 16 0 0 1 136 200Z';
+  h += `<g class="pl-roads"><path class="road main" d="M800 964V600" pathLength="1"/><circle class="rbt" cx="800" cy="600" r="32"/>
+<path class="road sec" d="${loop}" pathLength="1"/><path class="road sec" d="M120 600H1480" pathLength="1"/><path class="road sec" d="M120 400H1480" pathLength="1"/><path class="road sec" d="M800 400V200" pathLength="1"/></g>`;
+  let mk = `<path class="mark" d="${loop}M120 600H766M834 600H1480M120 400H1480M800 400V200M790 964V634M810 964V634"/><path class="median" d="M800 950V636"/><circle class="grn lawn" cx="800" cy="600" r="14"/>`;
+  for (let y = 650; y < 800; y += 26) if (y < 690 || y > 752) mk += T(800, y, 4.2);
+  h += `<g class="pl-marks">${mk}</g>`;
+  // amenities
+  let a = `<rect class="bld" x="752" y="438" width="96" height="46" rx="2"/><rect class="bld2" x="770" y="448" width="60" height="26"/>
+<circle class="amc dash" cx="662" cy="462" r="27"/><circle class="amc dash" cx="938" cy="462" r="27"/>
+<rect class="amc" x="632" y="520" width="62" height="40" rx="2"/><path class="amc" d="M663 520V560"/><rect class="amc dash" x="906" y="522" width="62" height="38" rx="19"/>
+<rect class="amc" x="664" y="828" width="104" height="84" rx="3"/><path class="amc" d="${Array.from({ length: 7 }, (_, i) => `M${677 + i * 13} 828v30M${677 + i * 13} 882v30`).join('')}"/>
+<rect class="gate" x="770" y="930" width="8" height="18"/><rect class="gate" x="822" y="930" width="8" height="18"/><rect class="bld" x="840" y="922" width="16" height="12"/>`;
+  if (!lite) a += [[800, 433, 'CLUBHOUSE'], [800, 577, 'CENTRAL PARK'], [662, 465, 'PLAY'], [938, 465, 'FITNESS'], [663, 571, 'COURT'], [937, 572, 'SEATING'], [716, 874, 'VISITOR PARKING'], [883, 922, 'ARRIVAL GARDEN'], [800, 984, 'GRAND ENTRANCE']].map(([x, y, t]) => `<text class="alabel" x="${x}" y="${y}">${t}</text>`).join('')
+    + `<text class="alabel" transform="translate(803 134) rotate(-90)">MEADOW WALK</text><text class="alabel" transform="translate(1512 500) rotate(90)">WALKING TRAIL</text>`
+    + [[340, 202, '30 FT ROAD'], [340, 402, '40 FT ROAD'], [340, 602, '40 FT ROAD'], [340, 802, '30 FT ROAD'], [1260, 202, '30 FT ROAD'], [1260, 402, '40 FT ROAD'], [1260, 602, '40 FT ROAD'], [1260, 802, '30 FT ROAD']].map(([x, y, t]) => `<text class="rlabel" x="${x}" y="${y}">${t}</text>`).join('')
+    + `<text class="rlabel" transform="translate(802 722) rotate(-90)">60 FT AVENUE</text>`;
+  h += `<g class="pl-amen">${a}</g></g>`;
+  // plots
+  h += `<g class="pl-plots">${plots.map((p, i) => { const [x, y, w, hh] = p.shape; return `<rect class="plot s-${ST[p.status] || 'av'}${lite ? '' : ''}" data-i="${i}" x="${x}" y="${y}" width="${w}" height="${hh}"${p.status === 'Sold' ? ` style="fill:url(#hat${u})"` : ''}/>`; }).join('')}</g>`;
+  if (!lite) {
+    let l = plots.map(p => { const [x, y, w, hh] = p.shape, cx = x + w / 2, cy = y + hh / 2; return `<text class="plabel${p.status === 'Sold' ? ' l-so' : ''}" ${w < 44 ? `transform="translate(${cx + 2.6} ${cy}) rotate(-90)"` : `x="${cx}" y="${cy + 2.6}"`}>${esc(p.id)}</text>`; }).join('');
+    const zy = { E: 132, D: 300, C: 500, B: 700, A: 868 };
+    let z = Object.keys(zy).map(k => `<text class="zlabel" transform="translate(90 ${zy[k]}) rotate(-90)">ZONE ${k}</text>`).join('');
+    z += `<g transform="translate(1504 972)"><circle class="cmp" r="13"/><path d="M0 -17L4 0H-4Z" fill="#d8b97e"/><text class="rlabel" y="-21" style="font-size:8px;fill:#d8b97e">N</text></g>
+<path class="cmp" d="M60 972H180M60 967v10M120 969v6M180 967v10"/><text class="rlabel" x="120" y="990">CONCEPT MASTERPLAN · NOT TO SCALE</text>`;
+    h += `<g class="pl-labels">${z}${l}</g>`;
+  }
+  svg.innerHTML = h;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+const hero = $('.hero'), intro = $('.intro');
+buildPlan($('#heroPlan'), true);
+$('#hHillFar').innerHTML = `<path d="${hillPath(1600, 300, 150, 110, 2.2, .0032)}" fill="#4a382b"/>`;
+$('#hHillMid').innerHTML = `<path d="${hillPath(1600, 300, 190, 80, 7.5, .0058)}" fill="#241c16"/>`;
+$$('.h-fore').forEach(s => { s.innerHTML = treeS(120, 440, 520, '#060504') + treeS(300, 440, 300, '#060504') + treeS(10, 440, 340, '#060504'); });
+$$('.h-clouds').forEach((c, ci) => {
+  const R = rng(40 + ci); let h = '';
+  for (let i = 0; i < 9; i++) { const x = R() * 50, y = R() * 80, w = 10 + R() * 16, hh = 8 + R() * 14; for (const o of [0, 50]) h += `<i style="left:${(x + o).toFixed(1)}%;top:${y.toFixed(0)}%;width:${w.toFixed(1)}%;height:${hh.toFixed(0)}%"></i>`; }
+  c.innerHTML = h;
+});
+// floating dust
+const dc = $('#hDust'), dctx = dc.getContext('2d'); let motes = [], dW = 0, dH = 0;
+function sizeDust() {
+  const d = Math.min(devicePixelRatio || 1, 1.5); dW = dc.clientWidth; dH = dc.clientHeight;
+  dc.width = dW * d; dc.height = dH * d; dctx.setTransform(d, 0, 0, d, 0, 0);
+  motes = Array.from({ length: isDesk() ? 70 : 32 }, () => ({ x: Math.random(), y: Math.random(), r: .5 + Math.random() * 1.7, s: .2 + Math.random() * .6, p: Math.random() * 6.28, a: .15 + Math.random() * .55 }));
+}
+function drawDust(t) {
+  dctx.clearRect(0, 0, dW, dH);
+  for (const m of motes) {
+    m.y -= m.s * .00035; m.x += Math.sin(t * .0004 + m.p) * .00018; if (m.y < -.02) { m.y = 1.02; m.x = Math.random(); }
+    dctx.globalAlpha = m.a * (.55 + .45 * Math.sin(t * .0012 + m.p));
+    dctx.fillStyle = '#f3d9a4'; dctx.beginPath(); dctx.arc(m.x * dW, m.y * dH, m.r, 0, 6.283); dctx.fill();
+  }
+}
+
+/* ============================================================
+   INTRO + PROJECT FACTS + SPEC SHEET
+   ============================================================ */
+$('#stats').innerHTML = [
+  { v: [P.totalAreaValue], l: P.totalAreaUnit }, { v: [P.totalPlots], l: 'Plots' }, { v: [minS, maxS], l: 'Sq.ft. plot sizes' }, { v: [P.amenities.length], l: 'Planned amenities' }
+].map((s, i) => `<div class="stat rv rv-fade" style="--i:${i}"><div class="stat-n">${s.v.map(n => `<span data-count="${n}">0</span>`).join('–')}</div><div class="stat-l">${esc(s.l)}</div></div>`).join('');
+const factRow = ([k, v], i) => `<div class="fact rv" style="--i:${i}"><i class="rv-rule" style="--i:${i}"></i><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`;
+$('#facts').innerHTML = [['Project size', P.totalArea], ['Total plots', P.totalPlots], ['Plot sizes', P.plotSizes], ['Location', P.locationShort], ['Development type', P.developmentType], ['Status', P.status]].map(factRow).join('');
+$('#specList').innerHTML = [['Project name', P.name], ['Location', P.location], ['Project area', P.totalArea], ['Total plots', P.totalPlots], ['Plot sizes', P.plotSizes], ['Price range', P.priceRange], ['Price per sq.ft.', P.pricePerSqft], ['Road width', P.roadWidths],
+  ['Amenities', P.amenities.map(a => a.name).join(', ')], ['Connectivity', P.connectivity.map(c => `${c.name} ${c.time} min`).join(', ')], ['Development status', P.status]].map(factRow).join('');
+$('#projFrame').innerHTML = `<div class="frame-in" data-par=".09">${visual(P.projectImage)}</div><figcaption>${esc(P.projectImage.title)}</figcaption>`;
+$('#ctaBg').innerHTML = scene('sun', 'gold');
+
+/* ============================================================
+   INTERACTIVE MASTERPLAN
+   ============================================================ */
+const planSec = $('#plots'), planMap = $('#planMap'), pv = $('#pv'), svg = $('#plan'), tip = $('#tip'), pp = $('#pp');
+buildPlan(svg, false);
+const rects = $$('.plot', svg), roadMain = $('.road.main', svg), roadSecs = $$('.road.sec', svg);
+const gG = $('.pl-green', svg), gM = $('.pl-marks', svg), gA = $('.pl-amen', svg), gL = $('.pl-labels', svg), rbt = $('.rbt', svg);
+const order = plots.map((p, i) => i).sort((a, b) => { const d = i => Math.hypot(plots[i].shape[0] + plots[i].shape[2] / 2 - 800, plots[i].shape[1] - 960); return d(a) - d(b); });
+const stageLis = $$('#stages li'), stageNames = stageLis.map(l => l.textContent);
+$('#legend').innerHTML = ['Available', 'Premium', 'Hold', 'Sold'].map(s => `<li><i class="sw ${ST[s]}"></i>${s} <b>${count(s)}</b></li>`).join('');
+[gG, gM, gA, gL, rbt].forEach(e => e.style.opacity = 0);
+
+let planP = -1, shown = 0, live = false;
+function setPlan(p) {
+  p = clamp(p, 0, 1); if (p <= planP) return; planP = p;
+  roadMain.style.strokeDashoffset = 1 - seg(p, 0, .13);
+  rbt.style.opacity = seg(p, .1, .15);
+  roadSecs.forEach((r, i) => r.style.strokeDashoffset = 1 - seg(p, .12 + i * .035, .3 + i * .035));
+  gM.style.opacity = seg(p, .36, .43);
+  const n = Math.round(seg(p, .4, .64) * N);
+  for (; shown < n; shown++) rects[order[shown]].classList.add('on');
+  gG.style.opacity = seg(p, .62, .72);
+  gA.style.opacity = seg(p, .7, .8);
+  svg.classList.toggle('filled', p > .8);
+  gL.style.opacity = seg(p, .84, .92);
+  const si = [0, .12, .4, .62, .7, .8, .94].filter(t => p >= t).length - 1;
+  stageLis.forEach((l, i) => { l.classList.toggle('now', i === si); l.classList.toggle('done', i < si); });
+  $('#planNow').textContent = stageNames[si];
+  $('#planProg').style.transform = `scaleX(${p})`;
+  if (p >= .94 && !live) {
+    live = true; svg.classList.add('live'); pv.classList.add('live'); pv.dataset.cur = 'Drag';
+    $('#pvHint').textContent = isDesk() ? 'Select a plot. Drag to move, use + and − to zoom' : 'Tap a plot. Drag to move, pinch to zoom';
+    setTimeout(() => { $('#pvHint').style.opacity = 0; }, 5200);
+  }
+}
+setPlan(0);
+
+/* ---- pan / zoom (drives the SVG viewBox, so the drawing stays sharp at any zoom) ---- */
+const view = { x: 0, y: 0, w: 1600, h: 1000 }; let cw = 1, ch = 1, va = 0;
+const measure = () => { cw = pv.clientWidth || 1; ch = pv.clientHeight || 1; };
+function fullView() { const a = cw / ch; let w, h; if (a > 1.6) { h = 1040; w = h * a; } else { w = 1664; h = w / a; } return { x: 800 - w / 2, y: 500 - h / 2, w, h }; }
+function homeView() { if (isDesk()) return fullView(); const h = 780, w = h * cw / ch; return { x: 800 - w / 2, y: 640 - h / 2, w }; }
+function setView(v) {
+  const f = fullView(), w = clamp(v.w, 230, f.w), h = w * ch / cw;
+  let cx = v.x + v.w / 2 + (w - v.w) * 0, cy = v.y + (v.h != null ? v.h : v.w * ch / cw) / 2;
+  // extra slack so an edge plot can sit clear of the side panel (desktop) or bottom sheet (mobile)
+  const sx = 80 + (isDesk() ? w * .28 : 0), sy = 80 + (isDesk() ? 0 : h * .5);
+  cx = clamp(cx, Math.min(800, w / 2 - sx), Math.max(800, 1600 - w / 2 + sx));
+  cy = clamp(cy, Math.min(500, h / 2 - sy), Math.max(500, 1000 - h / 2 + sy));
+  view.w = w; view.h = h; view.x = cx - w / 2; view.y = cy - h / 2;
+  svg.setAttribute('viewBox', `${view.x.toFixed(2)} ${view.y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)}`);
+  svg.classList.toggle('zoomed', cw / w > 1.12);
+}
+function animView(to, dur = 850) {
+  cancelAnimationFrame(va);
+  const toH = to.w * ch / cw, from = { ...view }, c0 = [from.x + from.w / 2, from.y + from.h / 2], c1 = [to.x + to.w / 2, to.y + toH / 2];
+  if (RM) { setView({ x: to.x, y: to.y, w: to.w }); return; }
+  const t0 = performance.now();
+  const step = t => {
+    let k = clamp((t - t0) / dur, 0, 1); k = 1 - Math.pow(1 - k, 3);
+    const w = lerp(from.w, to.w, k), h = w * ch / cw;
+    setView({ x: lerp(c0[0], c1[0], k) - w / 2, y: lerp(c0[1], c1[1], k) - h / 2, w, h });
+    if (k < 1) va = requestAnimationFrame(step);
+  };
+  va = requestAnimationFrame(step);
+}
+function zoomAt(f, px, py, anim) {
+  const nw = clamp(view.w / f, 230, fullView().w), nh = nw * ch / cw;
+  const ux = view.x + px / cw * view.w, uy = view.y + py / ch * view.h;
+  const to = { x: ux - px / cw * nw, y: uy - py / ch * nh, w: nw, h: nh };
+  anim ? animView(to, 450) : setView(to);
+}
+$('#zIn').onclick = () => zoomAt(1.6, cw / 2, ch / 2, true);
+$('#zOut').onclick = () => zoomAt(1 / 1.6, cw / 2, ch / 2, true);
+$('#zFit').onclick = () => { deselect(); animView(fullView()); };
+
+const pts = new Map(); let moved = 0, pinchD = 0, hov = -1;
+pv.addEventListener('pointerdown', e => {
+  if (!live || e.target.closest('.pv-ui') || (e.pointerType === 'mouse' && e.button !== 0)) return;
+  try { pv.setPointerCapture(e.pointerId); } catch (_) {}
+  pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); cancelAnimationFrame(va);
+  if (pts.size === 1) moved = 0;
+  if (pts.size === 2) { const [a, b] = [...pts.values()]; pinchD = Math.hypot(a.x - b.x, a.y - b.y); moved = 99; }
+});
+pv.addEventListener('pointermove', e => {
+  const p = pts.get(e.pointerId);
+  if (!p) { if (live && e.pointerType === 'mouse') hover(e); return; }
+  const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
+  if (moved > 8) { pv.classList.add('grabbing'); clearHover(); }
+  if (pts.size === 1) { if (moved > 8) setView({ x: view.x - dx * view.w / cw, y: view.y - dy * view.h / ch, w: view.w, h: view.h }); }
+  else if (pts.size === 2 && pinchD) {
+    const [a, b] = [...pts.values()], d = Math.hypot(a.x - b.x, a.y - b.y), r = pv.getBoundingClientRect();
+    zoomAt(d / pinchD, (a.x + b.x) / 2 - r.left, (a.y + b.y) / 2 - r.top); pinchD = d;
+  }
+});
+const endPt = e => {
+  if (!pts.has(e.pointerId)) return; pts.delete(e.pointerId); pinchD = 0;
+  if (pts.size) return; pv.classList.remove('grabbing');
+  if (e.type === 'pointerup' && moved <= 8) {
+    const el = document.elementFromPoint(e.clientX, e.clientY), pl = el && el.closest && el.closest('.plot');
+    if (pl && pl.classList.contains('on')) selectPlot(+pl.dataset.i); else if (el && pv.contains(el) && !el.closest('.pv-ui')) deselect();
+  }
+};
+pv.addEventListener('pointerup', endPt); pv.addEventListener('pointercancel', endPt);
+pv.addEventListener('pointerleave', clearHover);
+pv.addEventListener('wheel', e => { if (!live || !(e.ctrlKey || e.metaKey)) return; e.preventDefault(); const r = pv.getBoundingClientRect(); zoomAt(Math.exp(-e.deltaY * .012), e.clientX - r.left, e.clientY - r.top); }, { passive: false });
+pv.addEventListener('dblclick', e => { if (!live || e.target.closest('.pv-ui')) return; const r = pv.getBoundingClientRect(); zoomAt(1.8, e.clientX - r.left, e.clientY - r.top, true); });
+function hover(e) {
+  const pl = e.target.closest && e.target.closest('.plot'), i = pl ? +pl.dataset.i : -1;
+  if (i !== hov) {
+    if (hov >= 0) rects[hov].classList.remove('hov');
+    hov = i; svg.classList.toggle('hovering', i >= 0); pv.dataset.cur = i >= 0 ? 'View' : 'Drag';
+    if (i >= 0) { rects[i].classList.add('hov'); const p = plots[i]; tip.innerHTML = `<b>${esc(p.id)}</b>${fmtN(p.size)} sq.ft. &nbsp;/&nbsp; ${esc(p.status)}`; }
+    tip.classList.toggle('on', i >= 0);
+  }
+  if (i >= 0) { const r = pv.getBoundingClientRect(); tip.style.transform = `translate(${Math.min(e.clientX - r.left + 18, cw - 220)}px,${e.clientY - r.top + 18}px)`; }
+}
+function clearHover() { if (hov >= 0) rects[hov].classList.remove('hov'); hov = -1; svg.classList.remove('hovering'); tip.classList.remove('on'); }
+
+/* ---- selection + plot panel ---- */
+let sel = -1;
+function selectPlot(i) {
+  const p = plots[i]; if (!p) return;
+  if (sel >= 0) rects[sel].classList.remove('sel');
+  sel = i; rects[i].classList.add('sel'); rects[i].parentNode.appendChild(rects[i]); svg.classList.add('has-sel'); clearHover();
+  const c = ST[p.status] || 'av';
+  $('#ppBody').innerHTML = `<div><span class="badge ${c}">${esc(p.status)}</span><span class="pp-zone">Zone ${esc(p.zone)}${P.zones[p.zone] ? ' / ' + esc(P.zones[p.zone]) : ''}</span></div>
+<h3 class="pp-id">Plot ${esc(p.id)}</h3>
+<p class="pp-size"><b>${fmtN(p.size)}</b> sq.ft.${p.dimensions ? ` &nbsp;/&nbsp; ${esc(p.dimensions)}` : ''}</p>
+<div class="pp-price"><div><span>Price per sq.ft.</span><b>₹${fmtN(p.pricePerSqft)}</b></div><div><span>Total price</span><b>${fmtP(p.totalPrice)}</b></div></div>
+<dl><div><dt>Facing</dt><dd>${esc(p.facing)}</dd></div><div><dt>Road width</dt><dd>${esc(p.roadWidth)}</dd></div><div><dt>Availability</dt><dd>${esc(p.status)}</dd></div><div><dt>Zone</dt><dd>${esc(p.zone)}${P.zones[p.zone] ? ', ' + esc(P.zones[p.zone]) : ''}</dd></div><div style="grid-column:1/3"><dt>Nearby amenity</dt><dd>${esc(p.nearby || '')}</dd></div></dl>
+<button class="btn dark" id="ppEnq">${p.status === 'Sold' ? 'Ask about similar plots' : 'Enquire about this plot'}</button><p class="note">Synthetic demo data</p>`;
+  $('#ppEnq').onclick = () => openEnquiry(p.status === 'Sold' ? `I am looking for a plot similar to ${p.id} (${fmtN(p.size)} sq.ft., ${p.facing} facing).` : `I am interested in Plot ${p.id} (${fmtN(p.size)} sq.ft., ${p.facing} facing, ${fmtP(p.totalPrice)}).`);
+  pp.classList.add('open'); planMap.classList.add('sel-open'); pp.scrollTop = 0;
+  measure();
+  const [x, y, w, h] = p.shape, tw = Math.min(view.w, isDesk() ? 640 : 440), th = tw * ch / cw;
+  let offY = 0;
+  if (!isDesk()) { // keep the chosen plot in the strip of map left visible above the bottom sheet
+    const r = pv.getBoundingClientRect(), visC = (Math.max(r.top, 64) + Math.min(r.bottom, innerHeight - pp.offsetHeight)) / 2;
+    offY = clamp((r.top + ch / 2 - visC) / ch, 0, .4) * th;
+  }
+  animView({ x: x + w / 2 - tw / 2 + (isDesk() ? tw * .15 : 0), y: y + h / 2 - th / 2 + offY, w: tw });
+}
+function deselect() {
+  if (sel >= 0) rects[sel].classList.remove('sel'); sel = -1;
+  svg.classList.remove('has-sel'); pp.classList.remove('open'); planMap.classList.remove('sel-open');
+}
+$('#ppX').onclick = deselect;
+{ // swipe the sheet down to dismiss
+  let y0 = null;
+  const g = $('#ppGrab');
+  g.addEventListener('pointerdown', e => { y0 = e.clientY; g.setPointerCapture(e.pointerId); });
+  g.addEventListener('pointermove', e => { if (y0 != null) pp.style.transform = `translateY(${Math.max(0, e.clientY - y0)}px)`; });
+  const end = e => { if (y0 == null) return; const d = e.clientY - y0; y0 = null; pp.style.transform = ''; if (d > 60) deselect(); };
+  g.addEventListener('pointerup', end); g.addEventListener('pointercancel', end);
+}
+function goToPlot(i) {
+  setPlan(1);
+  const r = planSec.getBoundingClientRect(), pinned = isDesk() && !RM;
+  const top = pinned ? r.top + scrollY + (r.height - innerHeight) * .84 : pv.getBoundingClientRect().top + scrollY - 76;
+  scrollTo({ top, behavior: RM ? 'auto' : 'smooth' });
+  if (i != null) setTimeout(() => { measure(); selectPlot(i); }, RM ? 60 : 950);
+}
+$('#ctaPlots').onclick = () => goToPlot(null);
+
+/* ============================================================
+   LOCATION MAP
+   ============================================================ */
+{
+  const S = [520, 370], R = rng(5); let h = '';
+  const blob = (cx, cy, r, sd) => { let d = ''; for (let i = 0; i <= 40; i++) { const a = i / 40 * 6.2832, rr = r * (1 + .16 * Math.sin(a * 3 + sd) + .09 * Math.sin(a * 5 + sd * 2)); d += (i ? 'L' : 'M') + (cx + Math.cos(a) * rr * 1.45).toFixed(1) + ' ' + (cy + Math.sin(a) * rr).toFixed(1); } return d + 'Z'; };
+  for (const [cx, cy, sd] of [[520, 370, 1], [140, 120, 4], [900, 600, 7]]) for (let r = 36; r < 300; r += 36) h += `<path class="ct" d="${blob(cx, cy, r, sd + r * .01)}"/>`;
+  h += `<path class="hw" d="M-20 640C200 600 330 470 520 370S820 180 1020 60"/><path class="hw" style="stroke-width:5" d="M60 -10C150 200 190 330 170 560S260 700 300 720"/>`;
+  const city = P.connectivity[0];
+  for (let i = 0; i < 46; i++) { const a = R() * 6.28, d = 20 + R() * 95; h += `<rect class="blk" x="${(city.x + Math.cos(a) * d).toFixed(0)}" y="${(city.y + Math.sin(a) * d * .7).toFixed(0)}" width="${(6 + R() * 14).toFixed(0)}" height="${(6 + R() * 12).toFixed(0)}"/>`; }
+  P.connectivity.forEach((c, i) => {
+    const mx = (S[0] + c.x) / 2, my = (S[1] + c.y) / 2, dx = c.x - S[0], dy = c.y - S[1], k = (i % 2 ? .2 : -.2);
+    const d = `M${S[0]} ${S[1]}Q${(mx - dy * k).toFixed(0)} ${(my + dx * k).toFixed(0)} ${c.x} ${c.y}`;
+    const left = c.x < S[0], tx = c.x + (left ? -18 : 18);
+    h += `<path class="rt" data-i="${i}" style="--i:${i}" d="${d}" pathLength="1"/>` + (RM ? '' : `<circle class="dot" r="3.5"><animateMotion dur="${4 + c.time / 9}s" begin="${1.6 + i * .3}s" repeatCount="indefinite" path="${d}"/></circle>`)
+      + `<g class="nd" data-i="${i}" style="--i:${i}"><circle cx="${c.x}" cy="${c.y}" r="8"/><text class="nm" x="${tx}" y="${c.y - 4}" text-anchor="${left ? 'end' : 'start'}">${esc(c.name.toUpperCase())}</text><text class="tm" x="${tx}" y="${c.y + 28}" text-anchor="${left ? 'end' : 'start'}">${c.time} min</text></g>`;
+  });
+  h += `<circle class="site-r" cx="${S[0]}" cy="${S[1]}" r="20"/><circle class="site-r b" cx="${S[0]}" cy="${S[1]}" r="20"/><rect x="${S[0] - 13}" y="${S[1] - 13}" width="26" height="26" fill="#d8b97e" transform="rotate(45 ${S[0]} ${S[1]})"/><text class="site-n" x="${S[0]}" y="${S[1] + 58}">${esc(P.name)}</text>`;
+  $('#mapSvg').innerHTML = h;
+  $('#conn').innerHTML = P.connectivity.map((c, i) => `<li class="rv rv-fade" style="--i:${i}" data-i="${i}"><span>${esc(c.name)}<small>${esc(c.note || '')}</small></span><b><span data-count="${c.time}">0</span><i>min</i></b></li>`).join('');
+  const map = $('#map'), hot = i => { map.classList.toggle('dimmed', i != null); $$('.rt,.nd', map).forEach(e => e.classList.toggle('hot', e.dataset.i == i)); $$('#conn li').forEach(e => e.classList.toggle('hot', e.dataset.i == i)); };
+  $$('#conn li').forEach(li => { li.addEventListener('pointerenter', () => hot(li.dataset.i)); li.addEventListener('pointerleave', () => hot(null)); li.addEventListener('click', () => hot(li.dataset.i)); });
+  $$('.nd', map).forEach(n => { n.addEventListener('pointerenter', () => hot(n.dataset.i)); n.addEventListener('pointerleave', () => hot(null)); });
+}
+
+/* ============================================================
+   AMENITIES
+   ============================================================ */
+const ICONS = {
+  gate: '<path d="M4 21V7l4-3v17M20 21V7l-4-3v17M8 9h8M8 21h8M12 9v12"/>', leaf: '<path d="M5 19c0-8 5-13 14-14 0 9-5 14-14 14zM5 19l8-8"/>',
+  club: '<path d="M2 21h20M4 21V11l8-5 8 5v10M9 21v-6h6v6M2 11l10-7 10 7"/>', play: '<path d="M5 21 9 4h6l4 17M7.4 11h9.2M10 4v9M14 4v9"/><path d="M8.5 13h7"/>',
+  trail: '<path d="M7 21c0-4 8-5 8-9s-7-3-7-7 4-2 5-2"/><circle cx="17" cy="5" r="2"/>', fit: '<path d="M2 12h3M19 12h3M5 7v10M19 7v10M8 9v6M16 9v6M8 12h8"/>',
+  bench: '<path d="M4 11h16M4 14h16M6 14v5M18 14v5M5 11V7M19 11V7"/>', shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  lamp: '<path d="M10 21V7c0-2 2-3 5-3M7 21h6M15 4v3"/><circle cx="15" cy="9" r="2"/>', pipe: '<path d="M2 6h20M6 6v5a3 3 0 0 0 3 3h6a3 3 0 0 1 3 3v4M4 3v6M20 18v3"/>',
+  tree: '<path d="M12 21v-7M12 14a5 5 0 0 1-4-8 4 4 0 0 1 8 0 5 5 0 0 1-4 8zM8 21h8"/>', court: '<rect x="3" y="5" width="18" height="14" rx="1"/><path d="M12 5v14"/><circle cx="12" cy="12" r="2.5"/>'
+};
+const amenSec = $('#amenities'), track = $('#amenTrack'); let amenOver = 0;
+track.innerHTML = P.amenities.map(a => `<article class="card"><em>Concept</em><svg viewBox="0 0 24 24">${ICONS[a.icon] || ICONS.tree}</svg><div><h3>${esc(a.name)}</h3><p>${esc(a.desc)}</p></div></article>`).join('');
+$('#amenCount').textContent = `${P.amenities.length} sample amenities`;
+function sizeAmen() {
+  const pin = isDesk() && !RM;
+  amenSec.classList.toggle('native', !pin);
+  if (pin) { track.style.transform = ''; amenOver = Math.max(0, track.scrollWidth - innerWidth); amenSec.style.height = (innerHeight + amenOver) + 'px'; }
+  else { amenOver = 0; amenSec.style.height = ''; track.style.transform = ''; }
+}
+
+/* ============================================================
+   STORY (a small site model that builds itself step by step)
+   ============================================================ */
+{
+  const R = rng(9); let s = `<g class="sl l1 on"><rect class="s-land" x="40" y="40" width="520" height="520"/>`;
+  for (let i = 0; i < 6; i++) s += `<path class="s-cont" d="M40 ${90 + i * 84}C180 ${50 + i * 84 + R() * 70} 380 ${130 + i * 84 - R() * 70} 560 ${80 + i * 84}"/>`;
+  s += `</g><g class="sl l2"><path class="s-dim" d="M40 22H560M40 16v12M560 16v12M578 40V560M572 40h12M572 560h12"/>`;
+  const quads = [[52, 52], [316, 52], [52, 316], [316, 316]], cells = [];
+  quads.forEach(([qx, qy], qi) => { if (qi === 1) { s += `<rect class="s-plot" x="${qx}" y="${qy}" width="232" height="232"/>`; return; } for (let r = 0; r < 2; r++) for (let c = 0; c < 3; c++) { const x = qx + c * 232 / 3, y = qy + r * 116; cells.push([x, y, qi]); s += `<rect class="s-plot" x="${x.toFixed(1)}" y="${y}" width="${(232 / 3).toFixed(1)}" height="116"/>`; } });
+  s += `</g><g class="sl l3"><path class="s-road" d="M300 560V40" pathLength="1"/><path class="s-road" d="M40 300H560" pathLength="1"/><path class="s-mark" d="M300 560V40M40 300H560"/></g><g class="sl l4"><circle class="lw" cx="432" cy="168" r="78" style="--d:0"/>`;
+  for (let i = 0; i < 11; i++) { const t = 62 + i * 46; if (Math.abs(t - 300) < 26) continue; s += `<circle cx="279" cy="${t}" r="6" style="--d:${i * 50}"/><circle cx="321" cy="${t}" r="6" style="--d:${i * 50 + 25}"/><circle cx="${t}" cy="279" r="6" style="--d:${i * 50 + 200}"/><circle cx="${t}" cy="321" r="6" style="--d:${i * 50 + 225}"/>`; }
+  for (let i = 0; i < 10; i++) { const a = i / 10 * 6.28; s += `<circle cx="${(432 + Math.cos(a) * 92).toFixed(0)}" cy="${(168 + Math.sin(a) * 92).toFixed(0)}" r="${(7 + R() * 5).toFixed(0)}" style="--d:${500 + i * 40}"/>`; }
+  s += `</g><g class="sl l5"><rect class="cl" x="402" y="146" width="60" height="44" style="--d:0"/>`;
+  const home = 8;
+  cells.forEach(([x, y], i) => { if (i === home || R() < .22) return; s += `<rect x="${(x + 16 + R() * 8).toFixed(0)}" y="${(y + 22 + R() * 14).toFixed(0)}" width="${(34 + R() * 10).toFixed(0)}" height="${(44 + R() * 20).toFixed(0)}" style="--d:${(i * 60).toFixed(0)}"/>`; });
+  const [hx, hy] = cells[home];
+  s += `</g><g class="sl l6"><rect class="hp" x="${hx.toFixed(1)}" y="${hy}" width="${(232 / 3).toFixed(1)}" height="116"/><rect class="hm" x="${(hx + 18).toFixed(0)}" y="${hy + 26}" width="42" height="62" style="--d:200"/><circle class="ring" cx="${(hx + 38.6).toFixed(0)}" cy="${hy + 58}" r="46"/></g>`;
+  $('#stageSvg').innerHTML = s;
+  $('#steps').innerHTML = P.story.map((t, i) => `<div class="step" data-i="${i}"><i>${String(i + 1).padStart(2, '0')} / ${String(P.story.length).padStart(2, '0')}</i><h3>${esc(t.title)}</h3><p>${esc(t.text)}</p></div>`).join('');
+  const layers = $$('.sl', $('#stageSvg')), stepEls = $$('.step'), word = $('#stageW');
+  const setStep = i => { layers.forEach((l, k) => l.classList.toggle('on', k <= Math.round(i * (layers.length - 1) / Math.max(1, stepEls.length - 1)))); stepEls.forEach((e, k) => e.classList.toggle('on', k === i)); word.textContent = P.story[i].title; };
+  setStep(0);
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) setStep(+e.target.dataset.i); }), { rootMargin: '-48% 0px -48% 0px' });
+  stepEls.forEach(e => io.observe(e));
+}
+
+/* ============================================================
+   GALLERY + LIGHTBOX
+   ============================================================ */
+const lb = $('#lb'); let lbI = 0;
+$('#galGrid').innerHTML = P.gallery.map((g, i) => `<figure class="tile rv rv-clip" data-i="${i}" data-cur="Open" tabindex="0" role="button" aria-label="Open image: ${esc(g.title)}" style="--i:${i % 3}"><div class="tile-in" data-par=".07">${visual(g)}</div><figcaption>${esc(g.title)}</figcaption></figure>`).join('');
+function showLb(i) { lbI = (i + P.gallery.length) % P.gallery.length; const g = P.gallery[lbI]; $('#lbStage').innerHTML = visual(g); $('#lbCap').textContent = `${String(lbI + 1).padStart(2, '0')} / ${String(P.gallery.length).padStart(2, '0')}   ${g.title}${g.image ? '' : ' (concept illustration)'}`; lb.classList.add('open'); document.body.classList.add('lock'); }
+const closeLb = () => { lb.classList.remove('open'); document.body.classList.remove('lock'); };
+$$('.tile').forEach(t => { t.addEventListener('click', () => showLb(+t.dataset.i)); t.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showLb(+t.dataset.i); } }); });
+$('#lbX').onclick = closeLb; $('#lbP').onclick = () => showLb(lbI - 1); $('#lbN').onclick = () => showLb(lbI + 1);
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+
+/* ============================================================
+   WHY
+   ============================================================ */
+$('#whyList').innerHTML = P.why.map((w, i) => `<div class="why-row rv"><i class="rv-rule"></i><h3 class="ln"><span>${esc(w.title)}</span></h3><p class="rv rv-fade" style="--i:2">${esc(w.text)}</p></div>`).join('');
+
+/* ============================================================
+   PLOT FINDER
+   ============================================================ */
+{
+  const sb = P.finder.sizeBands, bb = P.finder.budgetBands;
+  const groups = {
+    size: ['Plot size', [['any', 'Any size'], ...sb.map((b, i) => [String(i), `${fmtN(b[0])}–${fmtN(b[1])} sq.ft.`])]],
+    budget: ['Budget', [['any', 'Any budget'], ...bb.map((b, i) => [String(i), b[1] == null ? `Above ${fmtBand(b[0])}` : b[0] === 0 ? `Under ${fmtBand(b[1])}` : `${fmtBand(b[0])} – ${fmtBand(b[1])}`])]],
+    facing: ['Facing', [['any', 'Any facing'], ['North', 'North'], ['South', 'South'], ['East', 'East corner'], ['West', 'West corner']]],
+    avail: ['Availability', [['open', 'Available now'], ['Premium', 'Premium only'], ['Hold', 'On hold'], ['all', 'All plots']]]
+  };
+  const state = { size: 'any', budget: 'any', facing: 'any', avail: 'open' };
+  $('#filters').innerHTML = Object.entries(groups).map(([k, [t, opts]]) => `<div class="fgroup"><h4>${t}</h4><div class="chips" data-k="${k}">${opts.map(([v, l]) => `<button class="chip" data-v="${v}" aria-pressed="${state[k] === v}">${l}</button>`).join('')}</div></div>`).join('');
+  const match = p => {
+    if (state.size !== 'any') { const b = sb[+state.size]; if (p.size < b[0] || p.size > b[1]) return false; }
+    if (state.budget !== 'any') { const b = bb[+state.budget], l = p.totalPrice / 1e5; if (l < b[0] || (b[1] != null && l >= b[1])) return false; }
+    if (state.facing !== 'any') { if (state.facing === 'North' || state.facing === 'South' ? !p.facing.startsWith(state.facing) : !p.facing.includes(state.facing)) return false; }
+    if (state.avail === 'open') return p.status === 'Available' || p.status === 'Premium';
+    if (state.avail !== 'all') return p.status === state.avail;
+    return true;
+  };
+  const render = () => {
+    const m = plots.map((p, i) => [p, i]).filter(([p]) => match(p)).sort((a, b) => a[0].totalPrice - b[0].totalPrice), top = m.slice(0, 10);
+    $('#resCount').textContent = `${m.length} ${m.length === 1 ? 'plot' : 'plots'}`;
+    $('#resNote').textContent = m.length > top.length ? `Showing the ${top.length} lowest priced. Synthetic data.` : 'Synthetic data';
+    $('#res').innerHTML = top.length ? top.map(([p, i], k) => `<button class="rcard" data-i="${i}" style="--i:${k}" data-cur="Locate"><b>${esc(p.id)}</b><span><i class="sw ${ST[p.status]}"></i>${fmtN(p.size)} sq.ft. / ${esc(p.facing)}</span><i>${fmtP(p.totalPrice)}</i></button>`).join('') : `<p class="res-empty">No plots match these filters. Widen the size or budget to see more.</p>`;
+  };
+  $('#filters').addEventListener('click', e => { const c = e.target.closest('.chip'); if (!c) return; const k = c.parentNode.dataset.k; state[k] = c.dataset.v; $$('.chip', c.parentNode).forEach(b => b.setAttribute('aria-pressed', b === c)); render(); });
+  $('#res').addEventListener('click', e => { const c = e.target.closest('.rcard'); if (c) goToPlot(+c.dataset.i); });
+  render();
+  // enquiry selects reuse the same bands
+  $('#eSize').innerHTML = `<option value="">No preference</option>` + groups.size[1].slice(1).map(o => `<option>${o[1]}</option>`).join('');
+  $('#eBudget').innerHTML = `<option value="">No preference</option>` + groups.budget[1].slice(1).map(o => `<option>${o[1]}</option>`).join('');
+}
+
+/* ============================================================
+   ENQUIRY MODAL (static: nothing is stored or sent by this page itself)
+   ============================================================ */
+const modal = $('#modal'), enq = $('#enq'), enqHTML = $('#modalR').innerHTML;
+const wa = (P.enquiry.whatsappNumber || '').replace(/\D/g, ''), mail = P.enquiry.email || '';
+function wireForm() {
+  const f = $('#enq');
+  $('#eNote').textContent = wa ? 'Sending opens WhatsApp with your enquiry filled in.' : mail ? 'Sending opens your mail app with your enquiry filled in.' : 'Demo enquiry form. Connect your CRM, WhatsApp or backend here.';
+  f.addEventListener('submit', e => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(f).entries());
+    if (!d.name.trim() || d.phone.replace(/\D/g, '').length < 7) { $('#eErr').textContent = 'Add your name and a phone number so the team can reach you.'; return; }
+    const text = [`Enquiry: ${P.name}`, `Name: ${d.name}`, `Phone: ${d.phone}`, d.email && `Email: ${d.email}`, d.size && `Plot size: ${d.size}`, d.budget && `Budget: ${d.budget}`, d.message && `Message: ${d.message}`].filter(Boolean).join('\n');
+    if (wa) window.open(`https://wa.me/${wa}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    else if (mail) location.href = `mailto:${mail}?subject=${encodeURIComponent('Enquiry: ' + P.name)}&body=${encodeURIComponent(text)}`;
+    $('#modalR').innerHTML = `<div class="done"><h4>${wa || mail ? 'Your enquiry is ready to send' : 'Demo enquiry form'}</h4><p>${wa ? 'WhatsApp has opened in a new tab with this message. Press send there to deliver it.' : mail ? 'Your mail app has opened with this message. Press send there to deliver it.' : 'Connect your CRM, WhatsApp or backend here. Nothing was sent or stored. This is the message the form would hand over:'}</p><pre>${esc(text)}</pre><button class="btn dark" id="enqBack">Edit enquiry</button></div>`;
+    $('#enqBack').onclick = () => { $('#modalR').innerHTML = enqHTML; restore(d); wireForm(); };
+  });
+}
+const restore = d => { for (const k in d) { const el = $(`#enq [name="${k}"]`); if (el) el.value = d[k]; } };
+function openEnquiry(msg) {
+  if (!$('#enq')) { $('#modalR').innerHTML = enqHTML; wireForm(); }
+  if (msg) $('#eMsg').value = msg;
+  $('#eErr').textContent = '';
+  modal.classList.add('open'); document.body.classList.add('lock'); closeMenu();
+  setTimeout(() => { const n = $('#eName'); if (n && FINE) n.focus(); }, 300);
+}
+const closeModal = () => { modal.classList.remove('open'); document.body.classList.remove('lock'); };
+wireForm();
+$$('[data-enquire]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const t = b.dataset.enquire; openEnquiry(t ? (t === 'Site visit' ? 'I would like to schedule a site visit.' : 'Please share the full project details.') : ''); }));
+$('#modalX').onclick = closeModal;
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+addEventListener('keydown', e => {
+  if (e.key === 'Escape') { if (lb.classList.contains('open')) closeLb(); else if (modal.classList.contains('open')) closeModal(); else if (document.body.classList.contains('menu-open')) closeMenu(); else deselect(); }
+  if (lb.classList.contains('open')) { if (e.key === 'ArrowRight') showLb(lbI + 1); if (e.key === 'ArrowLeft') showLb(lbI - 1); }
+});
+
+/* ============================================================
+   NAV / MENU
+   ============================================================ */
+const nav = $('#nav'), burger = $('#burger');
+function closeMenu() { document.body.classList.remove('menu-open'); burger.setAttribute('aria-expanded', 'false'); }
+burger.onclick = () => { const o = document.body.classList.toggle('menu-open'); burger.setAttribute('aria-expanded', o); };
+$$('#menu a').forEach(a => a.addEventListener('click', closeMenu));
+
+/* ============================================================
+   SCROLL ENGINE
+   ============================================================ */
+const bar = $('#bar'), pars = $$('[data-par]'); let ticking = false, heroOn = true;
+const visible = new Set();
+const pio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)), { rootMargin: '20% 0px' });
+pars.forEach(p => pio.observe(p));
+function frame() {
+  ticking = false;
+  const y = scrollY, vh = innerHeight;
+  nav.classList.toggle('solid', y > 40);
+  bar.style.transform = `scaleX(${clamp(y / (document.documentElement.scrollHeight - vh), 0, 1)})`;
+  if (!RM && y < vh * 2.4) { hero.style.setProperty('--hp', clamp(y / vh, 0, 1).toFixed(4)); intro.style.setProperty('--ip', clamp((y - vh * .2) / (vh * .9), 0, 1).toFixed(4)); }
+  if (isDesk() && !RM) {
+    const r = planSec.getBoundingClientRect();
+    if (r.top < vh && r.bottom > 0) setPlan(clamp(-r.top / (r.height - vh), 0, 1) / .7);
+    if (amenOver > 0) {
+      const a = amenSec.getBoundingClientRect();
+      if (a.top < vh && a.bottom > 0) { const p = clamp(-a.top / (a.height - vh), 0, 1); track.style.transform = `translate3d(${(-p * amenOver).toFixed(1)}px,0,0)`; track.style.setProperty('--p', p.toFixed(4)); $('#amenBar').style.transform = `scaleX(${p})`; }
+    }
+  }
+  if (!RM) visible.forEach(el => { const r = el.parentNode.getBoundingClientRect(), d = (r.top + r.height / 2 - vh / 2) * -(+el.dataset.par); el.style.transform = `translate3d(0,${d.toFixed(1)}px,0)`; });
+}
+addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+
+// mobile + reduced motion: the plan draws itself once it scrolls into view
+new IntersectionObserver((es, o) => es.forEach(e => {
+  if (!e.isIntersecting || (isDesk() && !RM)) return; o.disconnect();
+  if (RM) { setPlan(1); return; }
+  const t0 = performance.now(), run = t => { setPlan((t - t0) / 4200); if (planP < 1) requestAnimationFrame(run); }; requestAnimationFrame(run);
+}), { threshold: .3 }).observe(pv);
+
+// reveals + counters
+const rio = new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); o.unobserve(e.target); } }), { threshold: .14, rootMargin: '0px 0px -6% 0px' });
+$$('.rv').forEach(e => rio.observe(e));
+const cio = new IntersectionObserver((es, o) => es.forEach(e => {
+  if (!e.isIntersecting) return; o.unobserve(e.target);
+  const el = e.target, to = +el.dataset.count; if (RM) { el.textContent = to; return; }
+  const t0 = performance.now(), run = t => { const k = clamp((t - t0) / 1700, 0, 1); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 4))); if (k < 1) requestAnimationFrame(run); }; requestAnimationFrame(run);
+}), { threshold: .5 });
+$$('[data-count]').forEach(e => cio.observe(e));
+new IntersectionObserver(es => es.forEach(e => { heroOn = e.isIntersecting; })).observe($('.hero-pin'));
+
+/* ---- continuous loop: hero parallax, dust, cursor ---- */
+const cur = $('#cur'), curT = $('span', cur); let mx = 0, my = 0, tx = 0, ty = 0, cx = -100, cy = -100, px = -100, py = -100;
+if (FINE) {
+  addEventListener('pointermove', e => {
+    tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5; px = e.clientX; py = e.clientY; cur.classList.add('on');
+    const t = e.target.closest && e.target.closest('[data-cur]'), l = t ? t.dataset.cur : '';
+    cur.classList.toggle('big', !!l); if (l) curT.textContent = l;
+  }, { passive: true });
+  document.addEventListener('pointerleave', () => cur.classList.remove('on'));
+}
+function loop(t) {
+  if (FINE) { cx = lerp(cx, px, .2); cy = lerp(cy, py, .2); cur.style.transform = `translate3d(${cx.toFixed(1)}px,${cy.toFixed(1)}px,0)`; }
+  if (heroOn && !RM) {
+    mx = lerp(mx, tx, .045); my = lerp(my, ty, .045);
+    hero.style.setProperty('--mx', mx.toFixed(4)); hero.style.setProperty('--my', my.toFixed(4));
+    drawDust(t);
+  }
+  requestAnimationFrame(loop);
+}
+
+/* ---- sizing + start ---- */
+let lastW = innerWidth;
+function resize() {
+  measure(); sizeAmen();
+  if (innerWidth !== lastW || !isDesk()) { lastW = innerWidth; sizeDust(); }
+  if (sel < 0) setView(homeView()); else setView({ ...view });
+  frame();
+}
+addEventListener('resize', () => { clearTimeout(resize.t); resize.t = setTimeout(resize, 120); });
+measure(); sizeDust(); setView(homeView()); sizeAmen(); frame();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { sizeAmen(); frame(); });
+if (FINE || !RM) requestAnimationFrame(loop);
+setTimeout(() => document.body.classList.add('loaded'), RM ? 100 : 1250);
+})();
+</script>
+</body>
+</html>
